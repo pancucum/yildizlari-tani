@@ -1,0 +1,5269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yıldızları Tanı | Stellar Science Observatory</title>
+
+<style>
+:root {
+    --bg: #05080e;
+    --panel: #0c121c;
+    --border: #253143;
+    --text: #edf2fa;
+    --muted: #9baabd;
+    --blue: #82b6ef;
+    --gold: #e9ba75;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button, select, input[type="search"],
+input[type="number"], input[type="datetime-local"] {
+    color: var(--text);
+    background: #111c2b;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 14px;
+}
+
+button { cursor: pointer; }
+
+button:hover, button.active {
+    background: #203b58;
+    border-color: var(--blue);
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--blue);
+}
+
+select { max-width: 100%; }
+
+a { color: var(--blue); }
+
+h1, h2, h3, p { margin-top: 0; }
+
+h1 {
+    font-size: clamp(48px, 7vw, 100px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -3px;
+}
+
+h2 {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 400;
+    letter-spacing: -1px;
+}
+
+h3 { font-weight: 500; }
+
+small, .muted { color: var(--muted); }
+
+.eyebrow {
+    color: var(--blue);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5,8,14,.96);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #8eb3df;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 12px;
+    color: #b6c4d6;
+}
+
+nav a:hover { color: white; }
+
+.hero {
+    min-height: 85vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 80px 7%;
+    background:
+        radial-gradient(ellipse at 80% 50%,
+        #392316 0%, #090d16 42%, #05080e 75%);
+}
+
+.hero-sun {
+    position: absolute;
+    right: -10%;
+    width: min(72vw, 950px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 40% 35%,
+        #fff0b5, #e59a43 40%, #9c3816 80%);
+    background-image: url("sun.png"),
+        radial-gradient(circle, #ffce76, #a94418);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 100px #d16a2930;
+    opacity: .85;
+}
+
+.hero-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg, #05080e 5%, #05080ecc 35%,
+        transparent 90%);
+}
+
+.hero-content {
+    position: relative;
+    max-width: 690px;
+    z-index: 2;
+}
+
+.hero-content p {
+    color: #bdc9d9;
+    max-width: 520px;
+    font-size: 17px;
+}
+
+.primary {
+    display: inline-block;
+    text-decoration: none;
+    color: #08121d;
+    background: #d9e9fc;
+    border: none;
+    padding: 13px 24px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    border-bottom: 1px solid var(--border);
+}
+
+.stat {
+    padding: 26px;
+    border-right: 1px solid var(--border);
+}
+
+.stat strong {
+    font-size: 28px;
+    font-weight: 400;
+    display: block;
+}
+
+.stat small {
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+section {
+    max-width: 1500px;
+    margin: auto;
+    padding: 90px 5%;
+    scroll-margin-top: 70px;
+}
+
+.description {
+    color: var(--muted);
+    max-width: 850px;
+    margin-bottom: 30px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 24px;
+    min-width: 0;
+}
+
+.panel-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.three {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 16px;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.control { margin: 20px 0; }
+
+.control label {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+output {
+    display: block;
+    font-size: 25px;
+    margin: 8px 0;
+}
+
+.note {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.science-note {
+    background: #101b29;
+    border-left: 2px solid var(--blue);
+    padding: 16px;
+    color: #b9cbe0;
+    font-size: 13px;
+    margin-top: 18px;
+}
+
+.metric {
+    border-bottom: 1px solid var(--border);
+    padding: 15px 0;
+}
+
+.metric small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.metric strong {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+}
+
+.chart { height: 430px; }
+
+.sky-wrap {
+    position: relative;
+    background: #010308;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#skyCanvas {
+    height: 590px;
+    cursor: grab;
+    touch-action: none;
+}
+
+#skyCanvas:active { cursor: grabbing; }
+
+.sky-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: none;
+    font-size: 12px;
+    color: #b9cbe1;
+}
+
+.sky-bottom {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border);
+    background: #0b121d;
+}
+
+.atlas {
+    display: grid;
+    grid-template-columns: 240px minmax(0,1fr) 270px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.atlas-sidebar {
+    padding: 18px;
+    border-right: 1px solid var(--border);
+}
+
+.atlas-sidebar input,
+.atlas-sidebar select {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.star-list {
+    max-height: 570px;
+    overflow-y: auto;
+}
+
+.star-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    border: none;
+    background: transparent;
+    padding: 12px 8px;
+    font-size: 12px;
+}
+
+.star-item small {
+    display: block;
+    font-size: 10px;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.star-stage {
+    min-height: 570px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse,
+        #101826, #02040a 70%);
+}
+
+.star-stage canvas {
+    width: min(95%,520px);
+    aspect-ratio: 1;
+}
+
+.stage-title {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+}
+
+.stage-title h2 {
+    margin-bottom: 0;
+    font-size: 30px;
+}
+
+.stage-caption {
+    padding: 12px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.atlas-data {
+    padding: 22px;
+    border-left: 1px solid var(--border);
+}
+
+.compare-model {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+td, th {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    color: var(--muted);
+    font-weight: normal;
+}
+
+.table-scroll { overflow-x: auto; }
+
+.formula {
+    font-family: Georgia, serif;
+    font-size: 21px;
+    padding: 15px 0;
+    color: #d5e5fa;
+}
+
+.spectrum {
+    position: relative;
+    height: 65px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: linear-gradient(
+        90deg,#5300a0,#3333ff,#00baff,
+        #00bd65,#e4eb00,#ff9b00,#e51e12,#690000);
+}
+
+.spectral-line {
+    position: absolute;
+    height: 100%;
+    width: 3px;
+    background: #020308;
+}
+
+.evolution-steps {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.evolution-step {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+
+.evolution-step.active {
+    border-color: var(--blue);
+    background: #152438;
+}
+
+.evolution-orb {
+    margin: 10px auto 20px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 35% 35%,white,var(--color),#151019);
+    box-shadow: 0 0 20px var(--color);
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.option.correct {
+    background: #173b2e;
+    border-color: #70c49a;
+}
+
+.option.wrong {
+    background: #45262c;
+    border-color: #d37f87;
+}
+
+.progress {
+    height: 4px;
+    background: #263244;
+    margin: 20px 0;
+}
+
+.progress div {
+    height: 100%;
+    background: var(--blue);
+}
+
+details {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+summary { cursor: pointer; }
+
+details p {
+    color: var(--muted);
+    margin: 12px 0 0;
+}
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+body.night {
+    filter: grayscale(1) sepia(1)
+        saturate(5) hue-rotate(310deg);
+}
+
+@media(max-width:1000px) {
+    .atlas {
+        grid-template-columns: 200px 1fr;
+    }
+    .atlas-data {
+        grid-column: 1/-1;
+        border-left: none;
+        border-top: 1px solid var(--border);
+    }
+}
+
+@media(max-width:700px) {
+    header { flex-direction: column; }
+    nav { width: 100%; }
+    .two,.three,.atlas { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .star-list { max-height: 200px; }
+    .star-stage { min-height: 400px; }
+    .hero-sun { width: 110vw; right: -40%; }
+    section { padding: 60px 4%; }
+    .panel { padding: 16px; }
+    #skyCanvas { height: 420px; }
+    .chart { height: 350px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <div class="brand-icon">✳</div>
+        <div>YILDIZLARI TANI<br>
+        <small>STELLAR SCIENCE OBSERVATORY</small></div>
+    </div>
+
+    <nav>
+        <a href="#planetarium">Planetaryum</a>
+        <a href="#atlas">Yıldız Atlası</a>
+        <a href="#anatomy">Anatomi</a>
+        <a href="#spectrum">Spektrum</a>
+        <a href="#physics">Astrofizik</a>
+        <a href="#hr">H-R</a>
+        <a href="#evolution">Evrim</a>
+        <a href="#academy">Akademi</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="hero-sun"></div>
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+        <div class="eyebrow">
+            Interactive Astronomy & Astrophysics
+        </div>
+
+        <h1>Yıldızların<br>ötesinde.</h1>
+
+        <p>
+            Bir yıldızın ışığı, sıcaklığı, kütlesi ve
+            yaşam döngüsü bize evren hakkında neler
+            anlatabilir?
+        </p>
+
+        <p>
+            Astronomik gözlem, fiziksel hesaplamalar
+            ve etkileşimli bilimsel modellerle
+            yıldızların dünyasını keşfet.
+        </p>
+
+        <a class="primary" href="#planetarium">
+            Keşfe başla →
+        </a>
+    </div>
+</div>
+
+<div class="stats">
+    <div class="stat"><strong>35</strong>
+        <small>KATALOG YILDIZI</small></div>
+    <div class="stat"><strong>O–M</strong>
+        <small>SPEKTRAL SINIFLAR</small></div>
+    <div class="stat"><strong>13</strong>
+        <small>BİLİMSEL MODÜL</small></div>
+    <div class="stat"><strong>30</strong>
+        <small>AKADEMİ SORUSU</small></div>
+</div>
+
+
+<!-- IMMERSIVE 3D PLANETARIUM -->
+
+<section id="planetarium">
+
+<style>
+#stellar3D {
+    position: relative;
+    height: 780px;
+    background: #000;
+    border: 1px solid #253143;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #e6efff;
+    font-family: Arial, sans-serif;
+}
+
+#stellarViewport {
+    position: absolute;
+    inset: 0;
+}
+
+#stellarViewport canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+}
+
+.stellar-heading {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    pointer-events: none;
+}
+
+.stellar-heading h3 {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin: 0 0 8px;
+}
+
+.stellar-heading small {
+    color: #8aa9d2;
+    letter-spacing: 2px;
+}
+
+.stellar-panel {
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    width: 240px;
+    padding: 20px;
+    background: rgba(7, 13, 24, .88);
+    backdrop-filter: blur(18px);
+    border: 1px solid #30435d;
+    border-radius: 8px;
+    max-height: 65%;
+    overflow-y: auto;
+}
+
+#stellar3D button,
+#stellar3D select,
+#stellar3D input {
+    background: #101b2b;
+    color: #dceaff;
+    border: 1px solid #344862;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 12px;
+}
+
+#stellar3D button {
+    cursor: pointer;
+    transition: .2s;
+}
+
+#stellar3D button:hover {
+    background: #243e60;
+    border-color: #8cb9ff;
+}
+
+.stellar-panel select,
+.stellar-panel button,
+.stellar-panel input {
+    width: 100%;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+}
+
+.stellar-metric {
+    padding: 12px 0;
+    border-bottom: 1px solid #263449;
+}
+
+.stellar-metric small {
+    display: block;
+    color: #8fa8c8;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.stellar-metric strong {
+    font-size: 19px;
+    font-weight: 400;
+}
+
+.stellar-toolbar {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 94%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.stellar-hud {
+    position: absolute;
+    bottom: 110px;
+    left: 25px;
+    font-size: 11px;
+    line-height: 1.9;
+    color: #9ab1ce;
+    pointer-events: none;
+}
+
+.stellar-crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #ffffff45;
+    pointer-events: none;
+}
+
+#stellarLabels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.stellar-label {
+    position: absolute;
+    color: #d5e7ff;
+    font-size: 11px;
+    white-space: nowrap;
+    text-shadow: 0 0 6px black;
+}
+
+#stellarLoading {
+    position: absolute;
+    inset: 0;
+    background: #02050a;
+    display: grid;
+    place-items: center;
+    z-index: 20;
+    text-align: center;
+    padding: 25px;
+    letter-spacing: 2px;
+}
+
+#stellar3D:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+}
+
+#stellarObservation[hidden] {
+    display: none !important;
+}
+
+@media(max-width: 700px) {
+    .stellar-panel {
+        width: 170px;
+        right: 10px;
+        top: 100px;
+        padding: 12px;
+        max-height: 48%;
+    }
+
+    .stellar-heading {
+        left: 12px;
+    }
+
+    .stellar-heading h3 {
+        font-size: 17px;
+    }
+
+    .stellar-hud {
+        left: 12px;
+        bottom: 150px;
+    }
+}
+</style>
+
+<div class="eyebrow">
+    01 / IMMERSIVE SPACE EXPLORATION
+</div>
+
+<h2>Evrenin içinde.</h2>
+
+<p>
+    Yıldızları üç boyutlu uzayda keşfet.
+    Dünya'dan gökyüzünü gözlemle veya yıldızlar
+    arasında sanal bir yolculuğa çık.
+</p>
+
+<div id="stellar3D">
+
+    <div id="stellarViewport"></div>
+    <div id="stellarLabels"></div>
+
+    <div id="stellarLoading">
+        INITIALIZING STELLAR EXPLORER...
+    </div>
+
+    <div class="stellar-heading">
+        <h3>STELLAR EXPLORER</h3>
+        <small id="stellarMode">
+            DEEP SPACE EXPLORATION
+        </small>
+    </div>
+
+    <div class="stellar-crosshair">+</div>
+
+    <aside class="stellar-panel">
+
+        <small>STELLAR NAVIGATION</small>
+
+        <select id="stellarTarget"></select>
+
+        <button id="stellarTravel">
+            Yıldıza seyahat et
+        </button>
+
+        <button id="stellarAtlas">
+            Bilimsel atlası aç
+        </button>
+
+        <h3 id="stellarName">Güneş</h3>
+
+        <div id="stellarMetrics"></div>
+
+        <div id="stellarObservation" hidden>
+
+            <p>Gözlem konumu</p>
+
+            <select id="stellarLocation">
+                <option value="41.0082,28.9784">
+                    İstanbul
+                </option>
+                <option value="51.5072,-0.1276">
+                    Londra
+                </option>
+                <option value="40.7128,-74.006">
+                    New York
+                </option>
+                <option value="-33.8688,151.2093">
+                    Sidney
+                </option>
+            </select>
+
+            <p>Gözlem zamanı (UTC)</p>
+
+            <input type="datetime-local"
+                   id="stellarDate">
+
+            <button id="stellarNow">Şimdi</button>
+
+        </div>
+
+    </aside>
+
+    <div class="stellar-hud">
+
+        <div id="stellarCoordinates"></div>
+
+        <div>Fare: 360° görüş</div>
+        <div>W A S D: Serbest uçuş</div>
+        <div>Q / E: Dikey hareket</div>
+        <div>Fare tekerleği: Yakınlaşma</div>
+
+    </div>
+
+    <div class="stellar-toolbar">
+
+        <button id="stellarEarth">
+            ◎ Dünya'dan gözlem
+        </button>
+
+        <button id="stellarDeep">
+            ✦ Derin uzay
+        </button>
+
+        <button id="stellarOrbit">
+            ◉ Yörünge
+        </button>
+
+        <button id="stellarNames">
+            Yıldız isimleri
+        </button>
+
+        <button id="stellarConstellations">
+            Takımyıldızları
+        </button>
+
+        <button id="stellarFull">
+            Tam ekran
+        </button>
+
+        <button id="stellarReset">
+            Sıfırla
+        </button>
+
+        <button id="stellarVR">
+            VR
+        </button>
+
+    </div>
+
+</div>
+
+<p id="stellarNote" class="science-note">
+    Yıldız konumları katalog koordinatlarından
+    hesaplanır. Yıldız yüzeyleri, büyüklükleri
+    ve dekoratif arka plan temsili modellerdir.
+</p>
+
+<script type="module">
+
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+
+window.addEventListener("load", async () => {
+
+try {
+
+const el = id => document.getElementById(id);
+
+const viewport = el("stellarViewport");
+
+const RAD = Math.PI / 180;
+
+const clamp = (x,a,b) =>
+    Math.max(a,Math.min(b,x));
+
+const format = n =>
+    n == null
+    ? "Veri yok"
+    : Number(n).toLocaleString("tr-TR",{
+        maximumFractionDigits: 3
+    });
+
+/* EXISTING SCIENTIFIC STAR CATALOGUE */
+
+const catalogue = stars.map((s,i) => ({
+    ...s,
+    id: i
+}));
+
+/* THREE.JS ENVIRONMENT */
+
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x000003);
+
+const camera = new THREE.PerspectiveCamera(
+    65,
+    viewport.clientWidth / viewport.clientHeight,
+    .001,
+    30000
+);
+
+camera.rotation.order = "YXZ";
+
+camera.position.set(0,1.5,6);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    powerPreference: "high-performance"
+});
+
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio,2)
+);
+
+renderer.setSize(
+    viewport.clientWidth,
+    viewport.clientHeight
+);
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+renderer.xr.enabled = true;
+
+viewport.appendChild(renderer.domElement);
+
+const rig = new THREE.Group();
+
+scene.add(rig);
+
+rig.add(camera);
+
+const clock = new THREE.Clock();
+
+const deepGroup = new THREE.Group();
+const earthGroup = new THREE.Group();
+const constellationGroup = new THREE.Group();
+
+scene.add(deepGroup);
+scene.add(earthGroup);
+earthGroup.add(constellationGroup);
+
+let mode = "deep";
+let selected = 0;
+let yaw = 0;
+let pitch = 0;
+let orbit = false;
+let orbitAngle = 0;
+let showNames = true;
+let showConstellations = true;
+let journey = null;
+
+const keys = {};
+
+const objects = [];
+const earthObjects = [];
+const materials = [];
+
+/* PROCEDURAL STARFIELD */
+
+function starfield(count,galactic) {
+
+    const positions = [];
+    const colors = [];
+
+    for(let i=0;i<count;i++) {
+
+        const longitude = Math.random()*Math.PI*2;
+
+        const latitude = galactic
+
+            ? (Math.random()+Math.random()
+              +Math.random()-1.5)*.22
+
+            : Math.asin(Math.random()*2-1);
+
+        const r = 8000;
+
+        positions.push(
+            r*Math.cos(latitude)*Math.cos(longitude),
+            r*Math.sin(latitude),
+            r*Math.cos(latitude)*Math.sin(longitude)
+        );
+
+        const brightness = galactic
+
+            ? .06+Math.random()*.24
+
+            : .2+Math.random()*.8;
+
+        colors.push(
+            brightness,
+            brightness*.93,
+            brightness*1.05
+        );
+    }
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(positions,3)
+    );
+
+    geometry.setAttribute(
+        "color",
+        new THREE.Float32BufferAttribute(colors,3)
+    );
+
+    return new THREE.Points(
+        geometry,
+        new THREE.PointsMaterial({
+            size: galactic ? 1.2 : 1.6,
+            vertexColors: true,
+            transparent: true,
+            opacity: galactic ? .6 : .9,
+            sizeAttenuation: false,
+            depthWrite: false
+        })
+    );
+}
+
+const background = starfield(22000,false);
+const milkyWay = starfield(30000,true);
+
+milkyWay.rotation.z = .8;
+
+scene.add(background);
+scene.add(milkyWay);
+
+/* ANIMATED STELLAR SURFACE */
+
+const vertexShader = `
+varying vec3 vPosition;
+varying vec3 vNormal;
+varying vec3 vView;
+
+void main(){
+
+    vPosition = position;
+
+    vNormal = normalize(normalMatrix*normal);
+
+    vec4 mv = modelViewMatrix*vec4(position,1.0);
+
+    vView = normalize(-mv.xyz);
+
+    gl_Position = projectionMatrix*mv;
+}
+`;
+
+const fragmentShader = `
+
+uniform float time;
+uniform vec3 starColor;
+
+varying vec3 vPosition;
+varying vec3 vNormal;
+varying vec3 vView;
+
+float hash(vec3 p){
+
+    return fract(
+        sin(dot(p,vec3(127.1,311.7,74.7)))
+        *43758.5453
+    );
+}
+
+float noise(vec3 p){
+
+    vec3 i=floor(p);
+    vec3 f=fract(p);
+
+    f=f*f*(3.0-2.0*f);
+
+    return mix(
+        mix(
+            mix(hash(i),hash(i+vec3(1,0,0)),f.x),
+            mix(hash(i+vec3(0,1,0)),
+                hash(i+vec3(1,1,0)),f.x),
+            f.y
+        ),
+        mix(
+            mix(hash(i+vec3(0,0,1)),
+                hash(i+vec3(1,0,1)),f.x),
+            mix(hash(i+vec3(0,1,1)),
+                hash(i+vec3(1,1,1)),f.x),
+            f.y
+        ),
+        f.z
+    );
+}
+
+float fbm(vec3 p){
+
+    float v=0.0;
+    float a=0.5;
+
+    for(int i=0;i<5;i++){
+
+        v+=a*noise(p);
+
+        p*=2.05;
+
+        a*=0.5;
+    }
+
+    return v;
+}
+
+void main(){
+
+    vec3 p=normalize(vPosition);
+
+    float t=time*0.025;
+
+    float large=fbm(
+        p*18.0+vec3(t,0.0,t)
+    );
+
+    float small=fbm(
+        p*90.0+vec3(large*3.0,t,0.0)
+    );
+
+    float granulation=smoothstep(
+        0.15,0.85,
+        large*0.65+small*0.55
+    );
+
+    float limb=max(
+        dot(normalize(vNormal),normalize(vView)),
+        0.0
+    );
+
+    float brightness=
+        (0.35+granulation*1.4)
+        *(0.5+limb*0.5);
+
+    vec3 color=starColor*brightness;
+
+    color+=vec3(granulation*granulation*0.12);
+
+    gl_FragColor=vec4(color,1.0);
+
+    #include <colorspace_fragment>
+}
+`;
+
+/* CORONA TEXTURE */
+
+const glowCanvas = document.createElement("canvas");
+
+glowCanvas.width = 256;
+glowCanvas.height = 256;
+
+const ctx = glowCanvas.getContext("2d");
+
+const gradient = ctx.createRadialGradient(
+    128,128,0,128,128,128
+);
+
+gradient.addColorStop(0,"rgba(255,255,255,1)");
+gradient.addColorStop(.3,"rgba(255,255,255,.6)");
+gradient.addColorStop(.5,"rgba(255,255,255,.16)");
+gradient.addColorStop(1,"rgba(255,255,255,0)");
+
+ctx.fillStyle = gradient;
+
+ctx.fillRect(0,0,256,256);
+
+const glowTexture = new THREE.CanvasTexture(glowCanvas);
+
+function makeGlow(color,size){
+
+    const sprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+            map: glowTexture,
+            color,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        })
+    );
+
+    sprite.scale.set(size,size,1);
+
+    return sprite;
+}
+
+const sphere = new THREE.SphereGeometry(1,64,48);
+
+function makeStar(s,radius){
+
+    const material = new THREE.ShaderMaterial({
+
+        uniforms: {
+            time: {value:0},
+            starColor: {
+                value:new THREE.Color(s.color || "#ffcc88")
+            }
+        },
+
+        vertexShader,
+        fragmentShader
+    });
+
+    materials.push(material);
+
+    const mesh = new THREE.Mesh(sphere,material);
+
+    mesh.scale.setScalar(radius);
+
+    mesh.userData.starId = s.id;
+
+    const group = new THREE.Group();
+
+    group.add(mesh);
+
+    group.add(makeGlow(
+        s.color || "#ffcc88",
+        radius*5
+    ));
+
+    return {group,mesh,radius};
+}
+
+function createLabel(name){
+
+    const label = document.createElement("div");
+
+    label.className = "stellar-label";
+
+    label.textContent = name;
+
+    el("stellarLabels").appendChild(label);
+
+    return label;
+}
+
+/* REAL CATALOGUE COORDINATES */
+
+function cataloguePosition(s){
+
+    if(s.id===0){
+
+        return new THREE.Vector3(0,0,0);
+    }
+
+    if(
+        s.distance==null ||
+        s.ra==null ||
+        s.dec==null
+    ) return null;
+
+    const ra=s.ra*15*RAD;
+    const dec=s.dec*RAD;
+    const d=s.distance*2;
+
+    return new THREE.Vector3(
+        d*Math.cos(dec)*Math.cos(ra),
+        d*Math.sin(dec),
+        -d*Math.cos(dec)*Math.sin(ra)
+    );
+}
+
+catalogue.forEach(s=>{
+
+    el("stellarTarget").add(
+        new Option(s.name,s.id)
+    );
+
+    const position=cataloguePosition(s);
+
+    if(!position) return;
+
+    const radius=clamp(
+        Math.log10((s.R || 1)+1)*.65,
+        .12,
+        2.5
+    );
+
+    const model=makeStar(s,radius);
+
+    model.group.position.copy(position);
+
+    deepGroup.add(model.group);
+
+    objects.push({
+        ...model,
+        s,
+        label:createLabel(s.name)
+    });
+});
+
+/* ISOLATED MODEL FOR UNKNOWN DISTANCES */
+
+const isolated=makeStar(catalogue[0],1);
+
+isolated.group.visible=false;
+
+scene.add(isolated.group);
+
+/* EARTH OBSERVATION */
+
+const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(1500,128),
+    new THREE.MeshBasicMaterial({
+        color:0x080d14,
+        side:THREE.DoubleSide
+    })
+);
+
+ground.rotation.x=-Math.PI/2;
+
+ground.position.y=-.2;
+
+earthGroup.add(ground);
+
+const horizon = new THREE.Mesh(
+    new THREE.RingGeometry(998,1000,128),
+    new THREE.MeshBasicMaterial({
+        color:0x4d709c,
+        side:THREE.DoubleSide,
+        transparent:true,
+        opacity:.6
+    })
+);
+
+horizon.rotation.x=-Math.PI/2;
+
+earthGroup.add(horizon);
+
+catalogue.forEach(s=>{
+
+    if(s.ra==null || s.dec==null) return;
+
+    const sprite=makeGlow(
+        s.color || "#ffffff",
+        clamp(9-(s.mag ?? 6),2,12)*2
+    );
+
+    sprite.userData.starId=s.id;
+
+    earthGroup.add(sprite);
+
+    earthObjects.push({
+        s,
+        sprite,
+        label:createLabel(s.name)
+    });
+});
+
+function setNow(){
+
+    el("stellarDate").value=
+        new Date().toISOString().slice(0,16);
+}
+
+setNow();
+
+function horizontal(s){
+
+    const [lat,lon]=el("stellarLocation")
+        .value.split(",").map(Number);
+
+    const date=new Date(
+        el("stellarDate").value+":00Z"
+    );
+
+    if(!Number.isFinite(date.getTime())) return null;
+
+    const JD=date.getTime()/86400000+2440587.5;
+
+    const GMST=280.46061837+
+        360.98564736629*(JD-2451545);
+
+    const H=(GMST+lon-s.ra*15)*RAD;
+
+    const dec=s.dec*RAD;
+
+    const phi=lat*RAD;
+
+    const alt=Math.asin(clamp(
+        Math.sin(dec)*Math.sin(phi)+
+        Math.cos(dec)*Math.cos(phi)*Math.cos(H),
+        -1,1
+    ));
+
+    const az=Math.atan2(
+        -Math.sin(H)*Math.cos(dec),
+        Math.sin(dec)*Math.cos(phi)-
+        Math.cos(dec)*Math.sin(phi)*Math.cos(H)
+    );
+
+    return {
+        alt:alt/RAD,
+        az:(az/RAD+360)%360,
+        position:new THREE.Vector3(
+            1000*Math.cos(alt)*Math.sin(az),
+            1000*Math.sin(alt),
+            -1000*Math.cos(alt)*Math.cos(az)
+        )
+    };
+}
+
+const constellationPairs=[
+    ["Betelgeuse","Bellatrix"],
+    ["Betelgeuse","Alnitak Aa"],
+    ["Bellatrix","Mintaka Aa1"],
+    ["Mintaka Aa1","Alnilam"],
+    ["Alnilam","Alnitak Aa"],
+    ["Mintaka Aa1","Rigel"],
+    ["Castor Aa","Pollux"]
+];
+
+function updateEarth(){
+
+    earthObjects.forEach(o=>{
+
+        const p=horizontal(o.s);
+
+        o.sprite.visible=!!p && p.alt>=0;
+
+        if(p) o.sprite.position.copy(p.position);
+    });
+
+    while(constellationGroup.children.length){
+
+        const child=constellationGroup.children[0];
+
+        constellationGroup.remove(child);
+
+        child.geometry.dispose();
+
+        child.material.dispose();
+    }
+
+    constellationPairs.forEach(([a,b])=>{
+
+        const A=earthObjects.find(o=>o.s.name===a);
+        const B=earthObjects.find(o=>o.s.name===b);
+
+        if(!A || !B ||
+           !A.sprite.visible ||
+           !B.sprite.visible) return;
+
+        const geometry=new THREE.BufferGeometry()
+            .setFromPoints([
+                A.sprite.position,
+                B.sprite.position
+            ]);
+
+        constellationGroup.add(
+            new THREE.Line(
+                geometry,
+                new THREE.LineBasicMaterial({
+                    color:0x557ba8,
+                    transparent:true,
+                    opacity:.6
+                })
+            )
+        );
+    });
+
+    updateMetrics();
+}
+
+/* SCIENTIFIC INFORMATION PANEL */
+
+function updateMetrics(){
+
+    const s=catalogue[selected];
+
+    el("stellarName").textContent=s.name;
+
+    const data=[
+        ["Spektral sınıf",s.type],
+        ["Etkin sıcaklık",format(s.T)+" K"],
+        ["Kütle",s.M==null
+            ?"Veri yok":format(s.M)+" M☉"],
+        ["Yarıçap",format(s.R)+" R☉"],
+        ["Işınım gücü",format(s.L)+" L☉"],
+        ["Uzaklık",s.distance==null
+            ?"Veri yok":format(s.distance)+" ışık yılı"]
+    ];
+
+    if(mode==="earth" && s.ra!=null && s.dec!=null){
+
+        const p=horizontal(s);
+
+        if(p){
+
+            data.push(["Yükseklik",format(p.alt)+"°"]);
+
+            data.push(["Azimut",format(p.az)+"°"]);
+        }
+    }
+
+    el("stellarMetrics").innerHTML=data.map(
+        ([name,value])=>`
+        <div class="stellar-metric">
+            <small>${name}</small>
+            <strong>${value}</strong>
+        </div>`
+    ).join("");
+}
+
+el("stellarTarget").onchange=()=>{
+
+    selected=Number(el("stellarTarget").value);
+
+    orbit=false;
+
+    journey=null;
+
+    updateMetrics();
+};
+
+/* CINEMATIC TRAVEL */
+
+function syncAngles(){
+
+    const e=new THREE.Euler()
+        .setFromQuaternion(camera.quaternion,"YXZ");
+
+    yaw=e.y;
+
+    pitch=e.x;
+}
+
+function currentTarget(){
+
+    const target=objects.find(
+        o=>o.s.id===selected
+    );
+
+    if(target){
+
+        isolated.group.visible=false;
+
+        deepGroup.visible=true;
+
+        return target;
+    }
+
+    deepGroup.visible=false;
+
+    isolated.group.visible=true;
+
+    isolated.mesh.material.uniforms.starColor.value
+        .set(catalogue[selected].color || "#ffcc88");
+
+    isolated.group.children[1].material.color
+        .set(catalogue[selected].color || "#ffcc88");
+
+    return isolated;
+}
+
+function travelToStar(){
+
+    if(renderer.xr.isPresenting) return;
+
+    orbit=false;
+
+    let position;
+    let destination;
+
+    if(mode==="earth"){
+
+        const o=earthObjects.find(
+            o=>o.s.id===selected
+        );
+
+        if(!o || !o.sprite.visible){
+
+            el("stellarNote").textContent=
+                "Yıldız ufkun altında veya koordinat verisi yok.";
+
+            return;
+        }
+
+        position=o.sprite.position.clone();
+
+        destination=camera.position.clone();
+
+    }else{
+
+        const target=currentTarget();
+
+        position=target.group.position.clone();
+
+        const direction=camera.position.clone()
+            .sub(position);
+
+        if(direction.length()<.001){
+
+            direction.set(0,0,1);
+        }
+
+        direction.normalize();
+
+        destination=position.clone().addScaledVector(
+            direction,target.radius*3.8
+        );
+
+        el("stellarNote").textContent=
+
+            catalogue[selected].name+
+
+            (target===isolated
+
+            ? " — Uzaklık verisi olmayan bağımsız yıldız modeli."
+
+            : " — Yaklaşık katalog konumuna dayanan yıldız modeli.");
+    }
+
+    const dummy=new THREE.PerspectiveCamera();
+
+    dummy.position.copy(destination);
+
+    dummy.lookAt(position);
+
+    journey={
+        start:performance.now(),
+        duration:2500,
+        from:camera.position.clone(),
+        to:destination,
+        fromQ:camera.quaternion.clone(),
+        toQ:dummy.quaternion.clone()
+    };
+}
+
+el("stellarTravel").onclick=travelToStar;
+
+el("stellarAtlas").onclick=()=>{
+
+    if(typeof selectStar==="function"){
+
+        selectStar(selected);
+    }
+
+    document.getElementById("atlas")
+        ?.scrollIntoView({behavior:"smooth"});
+};
+
+/* 360 DEGREE CAMERA */
+
+const canvas=renderer.domElement;
+
+let dragging=false;
+let lastX=0;
+let lastY=0;
+let moved=0;
+
+canvas.addEventListener("pointerdown",e=>{
+
+    dragging=true;
+
+    journey=null;
+
+    orbit=false;
+
+    lastX=e.clientX;
+
+    lastY=e.clientY;
+
+    moved=0;
+
+    canvas.setPointerCapture(e.pointerId);
+});
+
+canvas.addEventListener("pointermove",e=>{
+
+    if(!dragging || renderer.xr.isPresenting) return;
+
+    const dx=e.clientX-lastX;
+
+    const dy=e.clientY-lastY;
+
+    moved+=Math.abs(dx)+Math.abs(dy);
+
+    yaw-=dx*.003;
+
+    pitch=clamp(
+        pitch-dy*.003,
+        -Math.PI/2+.001,
+        Math.PI/2-.001
+    );
+
+    camera.rotation.set(pitch,yaw,0,"YXZ");
+
+    lastX=e.clientX;
+
+    lastY=e.clientY;
+});
+
+canvas.addEventListener("pointerup",e=>{
+
+    dragging=false;
+
+    if(moved<5) pickStar(e);
+});
+
+canvas.addEventListener("pointercancel",()=>{
+
+    dragging=false;
+});
+
+canvas.addEventListener("wheel",e=>{
+
+    e.preventDefault();
+
+    if(renderer.xr.isPresenting) return;
+
+    orbit=false;
+
+    journey=null;
+
+    if(mode==="earth"){
+
+        camera.fov=clamp(
+            camera.fov+e.deltaY*.04,
+            12,100
+        );
+
+        camera.updateProjectionMatrix();
+
+    }else{
+
+        const direction=new THREE.Vector3();
+
+        camera.getWorldDirection(direction);
+
+        camera.position.addScaledVector(
+            direction,-e.deltaY*.003
+        );
+    }
+
+},{passive:false});
+
+/* FREE FLIGHT */
+
+let keyboardActive=false;
+
+viewport.addEventListener("pointerenter",()=>{
+
+    keyboardActive=true;
+});
+
+viewport.addEventListener("pointerleave",()=>{
+
+    keyboardActive=false;
+
+    Object.keys(keys).forEach(k=>keys[k]=false);
+});
+
+window.addEventListener("keydown",e=>{
+
+    if(!keyboardActive) return;
+
+    if(["INPUT","SELECT","TEXTAREA"]
+       .includes(document.activeElement.tagName)) return;
+
+    const key=e.key.toLowerCase();
+
+    if(["w","a","s","d","q","e"].includes(key)){
+
+        e.preventDefault();
+
+        keys[key]=true;
+
+        journey=null;
+
+        orbit=false;
+    }
+});
+
+window.addEventListener("keyup",e=>{
+
+    keys[e.key.toLowerCase()]=false;
+});
+
+window.addEventListener("blur",()=>{
+
+    Object.keys(keys).forEach(k=>keys[k]=false);
+});
+
+function moveCamera(dt){
+
+    if(mode!=="deep") return;
+
+    const forward=new THREE.Vector3();
+
+    camera.getWorldDirection(forward);
+
+    const right=new THREE.Vector3();
+
+    right.crossVectors(
+        forward,new THREE.Vector3(0,1,0)
+    ).normalize();
+
+    const speed=dt*5;
+
+    if(keys.w) camera.position.addScaledVector(forward,speed);
+
+    if(keys.s) camera.position.addScaledVector(forward,-speed);
+
+    if(keys.a) camera.position.addScaledVector(right,-speed);
+
+    if(keys.d) camera.position.addScaledVector(right,speed);
+
+    if(keys.q) camera.position.y-=speed;
+
+    if(keys.e) camera.position.y+=speed;
+}
+
+/* CLICKABLE STARS */
+
+const raycaster=new THREE.Raycaster();
+
+function pickStar(e){
+
+    const rect=canvas.getBoundingClientRect();
+
+    const mouse=new THREE.Vector2(
+        (e.clientX-rect.left)/rect.width*2-1,
+        -(e.clientY-rect.top)/rect.height*2+1
+    );
+
+    raycaster.setFromCamera(mouse,camera);
+
+    const targets=mode==="earth"
+
+        ? earthObjects.filter(o=>o.sprite.visible)
+            .map(o=>o.sprite)
+
+        : deepGroup.visible
+            ? objects.map(o=>o.mesh)
+            : [];
+
+    const hits=raycaster.intersectObjects(targets);
+
+    if(hits.length){
+
+        selected=hits[0].object.userData.starId;
+
+        el("stellarTarget").value=selected;
+
+        updateMetrics();
+    }
+}
+
+/* EXPLORATION MODES */
+
+function setMode(value){
+
+    if(renderer.xr.isPresenting) return;
+
+    mode=value;
+
+    journey=null;
+
+    orbit=false;
+
+    isolated.group.visible=false;
+
+    camera.fov=65;
+
+    camera.updateProjectionMatrix();
+
+    const earth=mode==="earth";
+
+    deepGroup.visible=!earth;
+
+    earthGroup.visible=earth;
+
+    background.visible=!earth;
+
+    milkyWay.visible=!earth;
+
+    el("stellarObservation").hidden=!earth;
+
+    if(earth){
+
+        camera.position.set(0,.1,0);
+
+        camera.rotation.set(.4,0,0,"YXZ");
+
+        el("stellarMode").textContent=
+            "EARTH OBSERVATION";
+
+        el("stellarNote").textContent=
+            "Katalog yıldızlarının ufuk koordinatları " +
+            "UTC zamanı ve gözlem konumuna göre hesaplanır. " +
+            "Atmosferik kırılma ve presesyon uygulanmamıştır.";
+
+        updateEarth();
+
+    }else{
+
+        camera.position.set(0,1.5,6);
+
+        camera.lookAt(0,0,0);
+
+        el("stellarMode").textContent=
+            "DEEP SPACE EXPLORATION";
+
+        el("stellarNote").textContent=
+            "Yıldız konumları yaklaşık katalog verilerine " +
+            "dayanır. Yüzeyler ve Samanyolu arka planı " +
+            "temsili modellerdir. Yarıçaplar ölçekli değildir.";
+    }
+
+    syncAngles();
+
+    updateMetrics();
+}
+
+el("stellarEarth").onclick=()=>setMode("earth");
+
+el("stellarDeep").onclick=()=>setMode("deep");
+
+el("stellarLocation").onchange=updateEarth;
+
+el("stellarDate").onchange=updateEarth;
+
+el("stellarNow").onclick=()=>{
+
+    setNow();
+
+    updateEarth();
+};
+
+/* ORBITAL CAMERA */
+
+el("stellarOrbit").onclick=()=>{
+
+    if(renderer.xr.isPresenting) return;
+
+    if(mode!=="deep") setMode("deep");
+
+    orbit=!orbit;
+
+    journey=null;
+};
+
+function updateOrbit(dt){
+
+    if(!orbit) return;
+
+    const target=currentTarget();
+
+    const p=target.group.position;
+
+    const r=target.radius*4;
+
+    orbitAngle+=dt*.18;
+
+    camera.position.set(
+        p.x+Math.cos(orbitAngle)*r,
+        p.y+target.radius*.5,
+        p.z+Math.sin(orbitAngle)*r
+    );
+
+    camera.lookAt(p);
+
+    syncAngles();
+}
+
+/* TOOLBAR */
+
+el("stellarNames").onclick=()=>{
+
+    showNames=!showNames;
+};
+
+el("stellarConstellations").onclick=()=>{
+
+    showConstellations=!showConstellations;
+
+    constellationGroup.visible=showConstellations;
+};
+
+el("stellarReset").onclick=()=>{
+
+    selected=0;
+
+    el("stellarTarget").value=0;
+
+    setMode(mode);
+};
+
+el("stellarFull").onclick=async()=>{
+
+    try{
+
+        if(document.fullscreenElement){
+
+            await document.exitFullscreen();
+
+        }else{
+
+            await el("stellar3D").requestFullscreen();
+        }
+
+    }catch{
+
+        el("stellarNote").textContent=
+            "Tam ekran bu tarayıcıda desteklenmiyor.";
+    }
+};
+
+/* WEBXR VIRTUAL REALITY */
+
+el("stellarVR").onclick=async()=>{
+
+    if(renderer.xr.isPresenting){
+
+        await renderer.xr.getSession().end();
+
+        return;
+    }
+
+    if(!navigator.xr){
+
+        el("stellarNote").textContent=
+            "Bu tarayıcı WebXR desteklemiyor. " +
+            "360° ekran deneyimini kullanabilirsin.";
+
+        return;
+    }
+
+    try{
+
+        const supported=
+            await navigator.xr.isSessionSupported(
+                "immersive-vr"
+            );
+
+        if(!supported){
+
+            el("stellarNote").textContent=
+                "Uyumlu VR gözlüğü bulunamadı.";
+
+            return;
+        }
+
+        const session=await navigator.xr.requestSession(
+            "immersive-vr"
+        );
+
+        const oldPosition=camera.position.clone();
+
+        const oldRotation=camera.quaternion.clone();
+
+        journey=null;
+
+        orbit=false;
+
+        rig.position.copy(oldPosition);
+
+        rig.quaternion.copy(oldRotation);
+
+        camera.position.set(0,0,0);
+
+        camera.quaternion.identity();
+
+        session.addEventListener("end",()=>{
+
+            rig.position.set(0,0,0);
+
+            rig.quaternion.identity();
+
+            camera.position.copy(oldPosition);
+
+            camera.quaternion.copy(oldRotation);
+
+            syncAngles();
+        });
+
+        try{
+
+            await renderer.xr.setSession(session);
+
+        }catch(error){
+
+            await session.end().catch(()=>{});
+
+            rig.position.set(0,0,0);
+
+            rig.quaternion.identity();
+
+            camera.position.copy(oldPosition);
+
+            camera.quaternion.copy(oldRotation);
+
+            syncAngles();
+
+            throw error;
+        }
+
+    }catch(error){
+
+        el("stellarNote").textContent=
+            "VR başlatılamadı. HTTPS, tarayıcı izni " +
+            "ve uyumlu VR cihazı gerekiyor.";
+    }
+};
+
+/* FLOATING STAR LABELS */
+
+const projected=new THREE.Vector3();
+
+function placeLabel(label,position,visible){
+
+    if(!visible ||
+       !showNames ||
+       renderer.xr.isPresenting){
+
+        label.style.display="none";
+
+        return;
+    }
+
+    projected.copy(position).project(camera);
+
+    if(projected.z < -1 ||
+       projected.z > 1 ||
+       Math.abs(projected.x)>1 ||
+       Math.abs(projected.y)>1){
+
+        label.style.display="none";
+
+        return;
+    }
+
+    label.style.display="block";
+
+    label.style.left=(
+        (projected.x*.5+.5)*viewport.clientWidth+10
+    )+"px";
+
+    label.style.top=(
+        (-projected.y*.5+.5)*viewport.clientHeight-15
+    )+"px";
+}
+
+function updateLabels(){
+
+    objects.forEach(o=>{
+
+        placeLabel(
+            o.label,
+            o.group.position,
+            mode==="deep" && deepGroup.visible
+        );
+    });
+
+    earthObjects.forEach(o=>{
+
+        placeLabel(
+            o.label,
+            o.sprite.position,
+            mode==="earth" && o.sprite.visible
+        );
+    });
+}
+
+/* RESPONSIVE VIEWPORT */
+
+new ResizeObserver(()=>{
+
+    if(renderer.xr.isPresenting) return;
+
+    const w=viewport.clientWidth;
+
+    const h=viewport.clientHeight;
+
+    if(!w || !h) return;
+
+    camera.aspect=w/h;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(w,h);
+
+}).observe(viewport);
+
+/* REAL-TIME RENDERING */
+
+function animate(){
+
+    const dt=Math.min(clock.getDelta(),.05);
+
+    const time=performance.now()/1000;
+
+    materials.forEach(m=>{
+
+        m.uniforms.time.value=time;
+    });
+
+    objects.forEach(o=>{
+
+        o.mesh.rotation.y+=dt*.025;
+    });
+
+    isolated.mesh.rotation.y+=dt*.04;
+
+    if(!renderer.xr.isPresenting){
+
+        if(journey){
+
+            const t=clamp(
+                (performance.now()-journey.start)/
+                journey.duration,
+                0,1
+            );
+
+            const smooth=t*t*(3-2*t);
+
+            camera.position.lerpVectors(
+                journey.from,
+                journey.to,
+                smooth
+            );
+
+            camera.quaternion.slerpQuaternions(
+                journey.fromQ,
+                journey.toQ,
+                smooth
+            );
+
+            if(t>=1){
+
+                journey=null;
+
+                syncAngles();
+            }
+
+        }else{
+
+            moveCamera(dt);
+
+            updateOrbit(dt);
+        }
+    }
+
+    camera.updateMatrixWorld();
+
+    background.position.copy(
+        renderer.xr.isPresenting
+        ?rig.position
+        :camera.position
+    );
+
+    milkyWay.position.copy(background.position);
+
+    renderer.render(scene,camera);
+
+    updateLabels();
+
+    el("stellarCoordinates").textContent=
+
+        mode==="deep"
+
+        ? "X "+camera.position.x.toFixed(2)+
+          " | Y "+camera.position.y.toFixed(2)+
+          " | Z "+camera.position.z.toFixed(2)
+
+        : "FOV "+camera.fov.toFixed(1)+"°";
+}
+
+setMode("deep");
+
+el("stellarLoading").style.display="none";
+
+renderer.setAnimationLoop(animate);
+
+}catch(error){
+
+    console.error(error);
+
+    document.getElementById("stellarLoading")
+        .textContent=
+        "3D ortam başlatılamadı: "+error.message;
+}
+
+});
+
+</script>
+
+</section>
+
+<!-- END OF IMMERSIVE PLANETARIUM -->
+
+
+
+
+<!-- STELLAR ATLAS -->
+
+<section id="atlas">
+
+    <div class="eyebrow">02 / Stellar Catalogue</div>
+
+    <h2>Yıldız atlası.</h2>
+
+    <p class="description">
+        Yıldızları spektral sınıflarına, sıcaklıklarına,
+        kütlelerine ve yaşam evrelerine göre incele.
+    </p>
+
+    <div class="atlas">
+
+        <div class="atlas-sidebar">
+
+            <div class="panel-title">STAR CATALOGUE</div>
+
+            <input type="search" id="starSearch"
+                   placeholder="Yıldız ara...">
+
+            <select id="starFilter">
+                <option value="all">Tüm yıldızlar</option>
+            </select>
+
+            <button id="favoriteFilter"
+                    style="width:100%">
+                ☆ Favoriler
+            </button>
+
+            <p class="note" id="starCount"></p>
+
+            <div class="star-list" id="starList"></div>
+        </div>
+
+        <div class="star-stage">
+
+            <div class="stage-title">
+                <div class="eyebrow">STELLAR OBSERVATORY</div>
+                <h2 id="starName">Güneş</h2>
+                <small id="starType"></small>
+            </div>
+
+            <canvas id="starCanvas"></canvas>
+
+            <div class="stage-caption" id="imageStatus"></div>
+
+            <div class="controls">
+                <button id="starZoomIn">Yakınlaş</button>
+                <button id="starZoomOut">Uzaklaş</button>
+                <button id="modelToggle">Model / Görüntü</button>
+            </div>
+        </div>
+
+        <div class="atlas-data">
+
+            <div class="panel-title">PHYSICAL PROPERTIES</div>
+
+            <div id="starMetrics"></div>
+
+            <button id="favorite"
+                    style="width:100%;margin-top:15px">
+                ☆ Favorilere ekle
+            </button>
+
+            <button id="speak"
+                    style="width:100%;margin-top:8px">
+                Sesli anlatım
+            </button>
+        </div>
+    </div>
+
+    <div class="science-note" id="starDescription"></div>
+
+    <div class="controls">
+        <button id="openSpectrum">Spektral analiz →</button>
+        <button id="openPhysics">Fiziksel analiz →</button>
+        <button id="openCompare">Karşılaştır →</button>
+    </div>
+</section>
+
+<!-- COMPARISON -->
+
+<section id="comparison">
+
+    <div class="eyebrow">03 / Comparative Astrophysics</div>
+
+    <h2>İki farklı yıldız.</h2>
+
+    <p class="description">
+        Yıldızların fiziksel özelliklerini doğrudan
+        karşılaştır.
+    </p>
+
+    <div class="two">
+
+        <div class="panel">
+            <select id="compareA"></select>
+            <canvas class="compare-model" id="canvasA"></canvas>
+        </div>
+
+        <div class="panel">
+            <select id="compareB"></select>
+            <canvas class="compare-model" id="canvasB"></canvas>
+        </div>
+
+    </div>
+
+    <div class="panel table-scroll" style="margin-top:18px">
+        <table id="compareTable"></table>
+        <div class="science-note" id="compareInsight"></div>
+    </div>
+
+    <p class="note">
+        Yıldız görüntüleri ayrıntıların incelenmesi
+        için eşit ekran alanında gösterilir.
+        Gerçek yarıçap oranları Kozmik Ölçek
+        bölümünde karşılaştırılır.
+    </p>
+</section>
+
+<!-- STELLAR ANATOMY -->
+
+<section id="anatomy">
+
+    <div class="eyebrow">04 / Stellar Structure</div>
+
+    <h2>Yıldızların iç yapısı.</h2>
+
+    <p class="description">
+        Enerjinin nerede üretildiğini ve yıldızın
+        içinden yüzeyine nasıl taşındığını öğren.
+    </p>
+
+    <div class="controls" id="anatomyButtons"></div>
+
+    <div class="two">
+
+        <div class="panel">
+            <div class="panel-title">INTERNAL STRUCTURE</div>
+            <canvas id="anatomyCanvas" class="chart"></canvas>
+        </div>
+
+        <div class="panel">
+            <h3 id="anatomyTitle"></h3>
+            <div id="anatomyLayers"></div>
+            <div class="science-note" id="anatomyInfo"></div>
+        </div>
+    </div>
+
+    <p class="note">
+        İç yapı kesitleri bilimsel eğitim modelleridir.
+        Katman kalınlıkları gerçek ölçekte değildir.
+    </p>
+</section>
+
+<!-- SPECTRAL LAB -->
+
+<section id="spectrum">
+
+    <div class="eyebrow">05 / Stellar Spectroscopy</div>
+
+    <h2>Işığın içindeki bilgi.</h2>
+
+    <p class="description">
+        Bir yıldızın ışığı sıcaklığı, kimyasal
+        bileşimi ve radyal hareketi hakkında
+        bilgi taşıyabilir.
+    </p>
+
+    <div class="two">
+
+        <div class="panel">
+
+            <div class="panel-title">BLACKBODY RADIATION</div>
+
+            <select id="spectralStar"></select>
+
+            <div class="control">
+                <label>Etkin sıcaklık</label>
+                <output id="spectralValue"></output>
+                <input type="range" id="spectralTemp"
+                       min="2500" max="50000"
+                       step="1" value="5772">
+            </div>
+
+            <div class="metric">
+                <small>TEPE DALGA BOYU</small>
+                <strong id="peak"></strong>
+            </div>
+
+            <div class="metric">
+                <small>ELEKTROMANYETİK BÖLGE</small>
+                <strong id="peakRegion"></strong>
+            </div>
+
+            <div class="formula">λmax = b / T</div>
+
+            <div class="science-note">
+                Wien yasası: Sıcaklık arttıkça
+                ışınımın tepe dalga boyu küçülür.
+            </div>
+
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">PLANCK FUNCTION</div>
+            <canvas id="spectrumCanvas" class="chart"></canvas>
+            <p class="note">
+                Normalize edilmiş ideal kara cisim
+                spektrumu. Gerçek ölçüm değildir.
+            </p>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+
+        <div class="panel-title">ATOMIC ABSORPTION LINES</div>
+
+        <h3>Elementlerin spektral imzaları</h3>
+
+        <div class="controls" id="elementButtons"></div>
+
+        <div class="spectrum" id="elementSpectrum"></div>
+
+        <div style="display:flex;justify-content:space-between">
+            <small>380 nm</small>
+            <small>750 nm</small>
+        </div>
+
+        <div class="science-note" id="elementInfo"></div>
+
+        <p class="note">
+            Çizgi konumları yaklaşık atomik geçiş
+            dalga boylarıdır. Renkler, çizgi genişlikleri
+            ve şiddetleri temsilidir.
+        </p>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+
+        <div class="panel-title">DOPPLER SPECTROSCOPY</div>
+
+        <h3>Yıldızın hareketini ölç.</h3>
+
+        <div class="control">
+            <label>Radyal hız (km/s)</label>
+            <output id="velocityValue"></output>
+            <input type="range" id="velocity"
+                   min="-500" max="500" value="0">
+        </div>
+
+        <canvas id="dopplerCanvas" style="height:220px"></canvas>
+
+        <div class="science-note" id="dopplerInfo"></div>
+
+        <div class="formula">Δλ / λ₀ ≈ v / c</div>
+
+        <p class="note">
+            Düşük hız yaklaşımı kullanılmıştır.
+            H-alfa çizgisi çevresindeki dar dalga
+            boyu aralığı gösterilir.
+        </p>
+    </div>
+</section>
+
+<!-- ELECTROMAGNETIC SPECTRUM -->
+
+<section id="electromagnetic">
+
+    <div class="eyebrow">06 / Multiwavelength Astronomy</div>
+
+    <h2>Görünür ışığın ötesinde.</h2>
+
+    <p class="description">
+        Chandra gibi gözlemevleri, insan gözünün
+        algılayamadığı elektromanyetik ışınımı
+        inceleyerek evren hakkında bilgi toplar.
+    </p>
+
+    <div class="panel">
+
+        <div class="controls" id="waveButtons"></div>
+
+        <canvas id="waveCanvas" style="height:230px"></canvas>
+
+        <h3 id="waveTitle"></h3>
+
+        <div id="waveInfo" class="science-note"></div>
+
+        <p class="note">
+            Dalga çizimi temsilidir. Frekanslar ve
+            dalga boyları gerçek ekran ölçeğinde değildir.
+        </p>
+    </div>
+</section>
+
+<!-- PHYSICS -->
+
+<section id="physics">
+
+    <div class="eyebrow">07 / Astrophysics Laboratory</div>
+
+    <h2>Yıldızların fizik yasaları.</h2>
+
+    <p class="description">
+        Katalog değerlerinden hesaplanabilen fiziksel
+        büyüklükleri ve bunların matematiksel
+        bağıntılarını incele.
+    </p>
+
+    <div class="panel">
+        <select id="physicsStar"></select>
+        <div class="three" id="physicsMetrics"
+             style="margin-top:20px"></div>
+        <div class="science-note" id="physicsNote"></div>
+    </div>
+</section>
+
+<!-- CREATE A STAR -->
+
+<section id="laboratory">
+
+    <div class="eyebrow">08 / Stellar Model Laboratory</div>
+
+    <h2>Kendi yıldız modelini oluştur.</h2>
+
+    <div class="two">
+
+        <div class="panel">
+
+            <div class="control">
+                <label>Etkin sıcaklık</label>
+                <output id="labTempValue"></output>
+                <input type="range" id="labTemp"
+                       min="2500" max="50000"
+                       value="5772" step="1">
+            </div>
+
+            <div class="control">
+                <label>Yarıçap (logaritmik)</label>
+                <output id="labRadiusValue"></output>
+                <input type="range" id="labRadius"
+                       min="-2" max="3.3"
+                       step=".01" value="0">
+            </div>
+
+            <div class="control">
+                <label>Kütle (logaritmik)</label>
+                <output id="labMassValue"></output>
+                <input type="range" id="labMass"
+                       min="-1.1" max="2.3"
+                       step=".01" value="0">
+            </div>
+
+            <div class="metric">
+                <small>HESAPLANAN IŞINIM GÜCÜ</small>
+                <strong id="labLuminosity"></strong>
+            </div>
+
+            <div class="metric">
+                <small>ORTALAMA YOĞUNLUK</small>
+                <strong id="labDensity"></strong>
+            </div>
+
+            <div class="formula">
+                L/L☉ = (R/R☉)² × (T/5772)⁴
+            </div>
+
+            <button id="resetLab">Güneş değerlerine dön</button>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-title">CALCULATED STELLAR MODEL</div>
+
+            <canvas id="labCanvas" class="compare-model"></canvas>
+
+            <div class="science-note" id="labInfo"></div>
+
+            <a href="#hr">Modeli H-R diyagramında gör →</a>
+        </div>
+
+    </div>
+
+    <p class="note">
+        Bu bir fiziksel parametre deneyidir.
+        Seçilebilen her kütle, sıcaklık ve yarıçap
+        kombinasyonu doğada kararlı bir yıldız
+        oluşturmayabilir.
+    </p>
+</section>
+
+<!-- HR DIAGRAM -->
+
+<section id="hr">
+
+    <div class="eyebrow">09 / Hertzsprung–Russell Diagram</div>
+
+    <h2>Yıldızların bilimsel haritası.</h2>
+
+    <p class="description">
+        Yıldızların etkin sıcaklıkları ile toplam
+        ışınım güçleri arasındaki ilişkiyi incele.
+    </p>
+
+    <div class="panel">
+
+        <div class="controls">
+            <select id="hrFilter">
+                <option value="all">Tüm yıldızlar</option>
+            </select>
+            <button id="radiusLines" class="active">
+                Sabit yarıçap çizgileri
+            </button>
+            <button id="customHR" class="active">
+                Laboratuvar modelim
+            </button>
+        </div>
+
+        <canvas id="hrCanvas" style="height:580px"></canvas>
+
+        <div class="science-note" id="hrInfo">
+            Bir yıldızın üzerine gelerek
+            fiziksel özelliklerini incele.
+        </div>
+
+        <p class="note">
+            Her iki eksen logaritmiktir.
+            Sıcaklık sağa doğru azalır.
+            Noktalar yaklaşık katalog değerlerini gösterir.
+        </p>
+    </div>
+</section>
+
+<!-- EVOLUTION -->
+
+<section id="evolution">
+
+    <div class="eyebrow">10 / Stellar Evolution</div>
+
+    <h2>Bir yıldızın yaşamı.</h2>
+
+    <p class="description">
+        Başlangıç kütlesi, yıldızın evrimini
+        belirleyen temel fiziksel özelliklerden biridir.
+    </p>
+
+    <div class="panel">
+
+        <div class="control">
+            <label>Başlangıç kütlesi</label>
+            <output id="evolutionMassValue"></output>
+            <input type="range" id="evolutionMass"
+                   min="-1.2" max="2"
+                   value="0" step=".01">
+        </div>
+
+        <div class="evolution-steps" id="evolutionSteps"></div>
+
+        <div class="control">
+            <label>Evrim aşaması</label>
+            <input type="range" id="evolutionTime"
+                   min="0" max="100" value="0">
+        </div>
+
+        <div class="two">
+            <div>
+                <h3 id="evolutionTitle"></h3>
+                <p id="evolutionInfo"></p>
+            </div>
+            <div class="metric">
+                <small>YAKLAŞIK ANA KOL ÖMRÜ</small>
+                <strong id="lifetime"></strong>
+            </div>
+        </div>
+
+        <p class="note">
+            Evrim yolları basitleştirilmiştir.
+            Zaman çizelgesi gerçek sürelerle orantılı
+            değildir. Metal bolluğu, dönüş, madde kaybı
+            ve çift yıldız etkileşimleri sonucu etkiler.
+        </p>
+    </div>
+</section>
+
+<!-- COSMIC SCALE -->
+
+<section id="scale">
+
+    <div class="eyebrow">11 / Cosmic Scale</div>
+
+    <h2>Kozmik büyüklükler.</h2>
+
+    <div class="panel">
+
+        <div class="controls">
+            <select id="scaleProperty">
+                <option value="radius">Yarıçap</option>
+                <option value="mass">Kütle</option>
+                <option value="volume">Hacim</option>
+                <option value="luminosity">Işınım gücü</option>
+            </select>
+
+            <button id="scaleMode">Logaritmik ölçek</button>
+        </div>
+
+        <canvas id="scaleCanvas" class="chart"></canvas>
+
+        <p class="note" id="scaleInfo"></p>
+
+    </div>
+</section>
+
+<!-- DISTANCE -->
+
+<section id="distance">
+
+    <div class="eyebrow">12 / Astrometry & Stellar Distance</div>
+
+    <h2>Yıldızlar ne kadar uzakta?</h2>
+
+    <div class="two">
+
+        <div class="panel">
+
+            <div class="panel-title">PARALLAX LABORATORY</div>
+
+            <div class="control">
+                <label>Paralaks (mas)</label>
+                <output id="parallaxValue"></output>
+                <input type="range" id="parallax"
+                       min="0" max="3" step=".01" value="2">
+            </div>
+
+            <div class="metric">
+                <small>PARSEK</small>
+                <strong id="parsec"></strong>
+            </div>
+
+            <div class="metric">
+                <small>IŞIK YILI</small>
+                <strong id="lightYear"></strong>
+            </div>
+
+            <div class="formula">d(pc) = 1000 / p(mas)</div>
+
+            <button id="earthPosition">
+                Dünya'nın konumunu değiştir
+            </button>
+
+        </div>
+
+        <div class="panel">
+            <canvas id="parallaxCanvas" class="chart"></canvas>
+            <p class="note">
+                Geometri ve açılar öğretim amacıyla
+                abartılmıştır.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+
+        <div class="panel-title">SOLAR NEIGHBORHOOD</div>
+
+        <canvas id="distanceCanvas" class="chart"
+                style="touch-action:none;cursor:grab"></canvas>
+
+        <div class="controls">
+            <button id="distanceLeft">← Döndür</button>
+            <button id="distanceRight">Döndür →</button>
+            <button id="distanceZoom">Yakınlaş</button>
+            <button id="distanceReset">Sıfırla</button>
+        </div>
+
+        <div class="science-note" id="distanceInfo">
+            Güneş çevresindeki seçili yıldızların
+            yaklaşık üç boyutlu konumları.
+        </div>
+
+        <p class="note">
+            Sağ açıklık, dik açıklık ve uzaklık
+            değerlerinden hesaplanan 3B koordinatlar
+            iki boyutlu ekrana yansıtılır.
+        </p>
+    </div>
+</section>
+
+<!-- ACADEMY -->
+
+<section id="academy">
+
+    <div class="eyebrow">13 / Astronomy Academy</div>
+
+    <h2>Bir astronom gibi düşün.</h2>
+
+    <div class="three" id="missions"></div>
+
+    <div class="panel" style="margin-top:25px">
+
+        <div class="panel-title" id="quizCounter"></div>
+
+        <div class="progress">
+            <div id="quizProgress"></div>
+        </div>
+
+        <h3 id="quizQuestion"></h3>
+
+        <div id="quizOptions"></div>
+
+        <p id="quizFeedback"></p>
+
+        <button id="quizNext" hidden>Sonraki soru →</button>
+    </div>
+
+    <div class="panel" style="margin-top:25px">
+
+        <h3>Astronomi sözlüğü</h3>
+
+        <input type="search" id="dictionarySearch"
+               placeholder="Kavram ara...">
+
+        <div id="dictionary"></div>
+
+    </div>
+</section>
+
+<!-- DATA CENTER -->
+
+<section id="data">
+
+    <div class="eyebrow">Scientific Data & References</div>
+
+    <h2>Bilimsel veri merkezi.</h2>
+
+    <p class="description">
+        Astronomik verilerin kaynaklarını,
+        hesaplamaların varsayımlarını ve
+        simülasyonların sınırlarını incele.
+    </p>
+
+    <div class="panel">
+
+        <button id="exportCSV">Kataloğu CSV olarak indir</button>
+
+        <div class="table-scroll" style="margin-top:20px">
+            <table id="dataTable"></table>
+        </div>
+
+        <div class="science-note">
+            Katalogdaki değerler yaklaşık eğitim
+            verileridir. Bağımsız bilimsel doğrulama
+            gerektirir. SIMBAD bağlantıları araştırma
+            amacıyla verilmiştir; her ölçümün doğrudan
+            kaynağı olarak kabul edilmemelidir.
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+
+        <h3>Bilimsel araştırma kaynakları</h3>
+
+        <p><a href="https://science.nasa.gov/universe/stars/"
+              target="_blank" rel="noopener">
+              NASA — Stars</a></p>
+
+        <p><a href="https://chandra.si.edu/"
+              target="_blank" rel="noopener">
+              Chandra X-ray Observatory</a></p>
+
+        <p><a href="https://stellarium.org/"
+              target="_blank" rel="noopener">
+              Stellarium</a></p>
+
+        <p><a href="https://simbad.cds.unistra.fr/simbad/"
+              target="_blank" rel="noopener">
+              SIMBAD Astronomical Database</a></p>
+
+        <p><a href="https://gea.esac.esa.int/archive/"
+              target="_blank" rel="noopener">
+              ESA Gaia Archive</a></p>
+
+        <p><a href="https://openstax.org/details/books/astronomy-2e"
+              target="_blank" rel="noopener">
+              OpenStax — Astronomy 2e</a></p>
+
+        <p><a href="https://physics.nist.gov/asd"
+              target="_blank" rel="noopener">
+              NIST Atomic Spectra Database</a></p>
+
+        <p><a href="https://www.eso.org/"
+              target="_blank" rel="noopener">
+              European Southern Observatory</a></p>
+
+        <p class="note">
+            Bağımsız öğrenci projesidir.
+            NASA, Chandra, ESA veya Stellarium ile
+            resmi bir bağlantısı bulunmamaktadır.
+        </p>
+    </div>
+</section>
+
+<footer>
+    YILDIZLARI TANI — STELLAR SCIENCE OBSERVATORY
+    <br>
+    Astronomi ve astrofizik eğitim platformu.
+    <br><br>
+    <a href="#data">Bilimsel kaynaklar</a>
+    &nbsp;·&nbsp;
+    <a href="#planetarium">Planetaryum</a>
+</footer>
+
+<script>
+"use strict";
+
+/* =====================================
+   01. SCIENTIFIC CONSTANTS
+===================================== */
+
+const $ = id => document.getElementById(id);
+const PI = Math.PI;
+const RAD = PI / 180;
+
+const C = {
+    G: 6.67430e-11,
+    M: 1.98847e30,
+    R: 6.957e8,
+    L: 3.828e26,
+    sigma: 5.670374419e-8,
+    c: 299792458,
+    h: 6.62607015e-34,
+    k: 1.380649e-23,
+    wien: 2.897771955e-3,
+    ly: 9.4607304725808e15
+};
+
+const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
+
+const fmt = (n,d=2) => {
+    if(n === null || n === undefined ||
+       !Number.isFinite(n)) return "Veri yok";
+
+    if(n !== 0 && (Math.abs(n)<.001 ||
+       Math.abs(n)>=1e7)) return n.toExponential(3);
+
+    return n.toLocaleString("tr-TR",{
+        maximumFractionDigits:d
+    });
+};
+
+/* =====================================
+   02. STELLAR CATALOGUE
+
+   name, spectral type, group,
+   temperature K, solar mass,
+   solar radius, solar luminosity,
+   color, RA hours, DEC degrees,
+   distance light years, visual magnitude,
+   local image
+===================================== */
+
+const rawStars = [
+
+["Güneş","G2V","Ana kol",5772,1,1,1,
+"#ffcb82",null,null,0,-26.74,"sun.png"],
+
+["Sirius A","A1V","Ana kol",9940,2.06,1.71,25.4,
+"#dce9ff",6.7525,-16.7161,8.60,-1.46],
+
+["Sirius B","DA","Beyaz cüce",25000,1.02,.0084,.025,
+"#dceaff",6.7525,-16.7161,8.60,8.4],
+
+["Vega","A0V","Ana kol",9600,2.1,2.36,40,
+"#c9dcff",18.6156,38.7837,25.04,.03],
+
+["Spica A","B1","Ana kol",25300,11.4,7.5,20500,
+"#91b6ff",13.4199,-11.1613,250,.98],
+
+["Procyon A","F5IV–V","Altdev",6530,1.5,2.05,6.9,
+"#fff1d9",7.655,5.225,11.46,.34],
+
+["Alpha Centauri A","G2V","Ana kol",5790,1.1,1.22,1.52,
+"#ffe1a3",14.6601,-60.835,4.37,-.01],
+
+["Tau Ceti","G8V","Ana kol",5344,.78,.79,.52,
+"#ffd58c",1.7345,-15.9375,11.91,3.5],
+
+["Barnard Yıldızı","M4V","Kırmızı cüce",3134,.16,.19,.0035,
+"#ff6945",17.9635,4.6934,5.96,9.54],
+
+["Proxima Centauri","M5.5V","Kırmızı cüce",3000,.122,.154,.0017,
+"#ff5635",14.4953,-62.6795,4.2465,11.13],
+
+["Capella Aa","G8III","Dev",4970,2.57,12,79,
+"#ffc46e",5.2782,45.998,42.9,null],
+
+["Arcturus","K1.5III","Dev",4286,1.08,25.4,170,
+"#ff9b54",14.261,-19.1824+38.3648,36.7,-.05],
+
+["Aldebaran","K5III","Dev",3910,1.16,44,440,
+"#ff8745",4.5987,16.5093,65.3,.85],
+
+["Rigel","B8Ia","Süperdev",12100,21,79,120000,
+"#83adff",5.2423,-8.2016,860,.13],
+
+["Canopus","A9II","Parlak dev",7400,8,71,10700,
+"#fff3d6",6.3992,-52.6957,310,-.74],
+
+["Betelgeuse","M","Süperdev",3500,16,760,100000,
+"#ff7043",5.9195,7.4071,550,.5,"betelgeuse.png"],
+
+["Antares","M1.5Iab","Süperdev",3660,12,680,75000,
+"#ff5038",16.4901,-26.432,550,1,"antares.png"],
+
+["Polaris A","F7Ib","Süperdev",6015,5,46,2500,
+"#fff1c4",2.5303,89.2641,430,1.98],
+
+["Deneb","A2Ia","Süperdev",8525,19,203,196000,
+"#dceaff",20.6905,45.2803,2600,1.25],
+
+["Altair","A7V","Ana kol",7550,1.79,1.8,10.6,
+"#f0f4ff",19.8464,8.8683,16.73,.77],
+
+["Pollux","K0III","Dev",4666,1.9,8.8,43,
+"#ffb15c",7.7553,28.0262,33.7,1.14],
+
+["Castor Aa","A","Ana kol",10200,2.4,2.4,50,
+"#c7dcff",7.5767,31.8883,51,null],
+
+["UY Scuti","M","Süperdev",3365,null,1700,340000,
+"#ff5937",18.454,-12.453,null,null],
+
+["Stephenson 2-18","M","Süperdev",3200,null,2150,440000,
+"#ff482b",18.661,-6.09,null,null],
+
+["VY Canis Majoris","M","Hiperdev",3490,17,1420,270000,
+"#ff6335",7.382,-25.768,null,null],
+
+["R136a1","WN5h","Wolf-Rayet",46000,200,30,5000000,
+"#8eb5ff",5.645,-69.1,null,null],
+
+["Procyon B","DQZ","Beyaz cüce",7740,.59,.012,.0005,
+"#f0f4ff",7.655,5.225,11.46,10.7],
+
+["Alpha Centauri B","K1V","Ana kol",5230,.91,.86,.5,
+"#ffbf75",14.6601,-60.835,4.37,1.33],
+
+["TRAPPIST-1","M8V","Kırmızı cüce",2566,.089,.119,.00055,
+"#ff482b",23.1034,-5.041,40.7,18.8],
+
+["Regulus A","B7V","Ana kol",12460,3.8,3.2,288,
+"#b3ccff",10.1395,11.9672,79.3,1.35],
+
+["Bellatrix","B2III","Dev",22000,7.7,5.8,6400,
+"#9bbfff",5.4189,6.3497,250,1.64],
+
+["Achernar A","B tipi Be","Ana kol",15000,6,8,3150,
+"#abcaff",1.6286,-57.2368,139,.46],
+
+["Alnilam","B0Ia","Süperdev",27500,40,42,500000,
+"#91b7ff",5.6036,-1.2019,null,1.69],
+
+["Alnitak Aa","O9.5Iab","Süperdev",29500,33,20,250000,
+"#84b0ff",5.6793,-1.9426,null,null],
+
+["Mintaka Aa1","O9.5II","Parlak dev",29500,24,16.5,190000,
+"#91baff",5.5334,-.2991,null,null]
+
+];
+
+const stars = rawStars.map((s,id)=>({
+    id,name:s[0],type:s[1],group:s[2],
+    T:s[3],M:s[4],R:s[5],L:s[6],
+    color:s[7],ra:s[8],dec:s[9],
+    distance:s[10],mag:s[11],
+    image:s[12] || null
+}));
+
+const groups = [...new Set(stars.map(s=>s.group))];
+
+["starFilter","hrFilter"].forEach(id=>{
+    groups.forEach(g=>{
+        $(id).add(new Option(g,g));
+    });
+});
+
+["compareA","compareB","spectralStar","physicsStar"]
+.forEach(id=>{
+    stars.forEach(s=>{
+        $(id).add(new Option(s.name,s.id));
+    });
+});
+
+function prepare(id) {
+    const canvas = $(id);
+    const w = Math.max(1,canvas.clientWidth);
+    const h = Math.max(1,canvas.clientHeight);
+    const dpr = Math.min(devicePixelRatio || 1,2);
+
+    canvas.width = Math.round(w*dpr);
+    canvas.height = Math.round(h*dpr);
+
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    return {canvas,ctx,w,h};
+}
+
+function metric(label,value,unit="") {
+    return `<div class="metric">
+        <small>${label}</small>
+        <strong>${fmt(value)}
+        ${value===null?"":unit}</strong>
+    </div>`;
+}
+
+function temperatureColor(T) {
+    if(T<3500) return "#ff6940";
+    if(T<4500) return "#ff9c58";
+    if(T<5500) return "#ffd08a";
+    if(T<6500) return "#fff0c9";
+    if(T<8500) return "#f4f4ff";
+    if(T<12000) return "#d2e1ff";
+    return "#91b6ff";
+}
+
+/* =====================================
+   03. PROCEDURAL STELLAR SURFACES
+===================================== */
+
+const textures = new Map();
+const imageCache = new Map();
+
+function randomSeed(seed) {
+    let a = seed >>> 0;
+    return ()=>{
+        a = (a*1664525+1013904223)>>>0;
+        return a/4294967296;
+    };
+}
+
+function rgb(hex) {
+    return [
+        parseInt(hex.slice(1,3),16),
+        parseInt(hex.slice(3,5),16),
+        parseInt(hex.slice(5,7),16)
+    ];
+}
+
+function makeTexture(color,seed) {
+    const key = color+seed;
+
+    if(textures.has(key)) return textures.get(key);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 400;
+
+    const ctx = canvas.getContext("2d");
+    const random = randomSeed(seed+100);
+    const base = rgb(color);
+
+    const img = ctx.createImageData(400,400);
+
+    for(let y=0;y<400;y++){
+        for(let x=0;x<400;x++){
+
+            const nx=(x-200)/200;
+            const ny=(y-200)/200;
+            const r2=nx*nx+ny*ny;
+            const i=(y*400+x)*4;
+
+            if(r2>1) continue;
+
+            const limb=.36+.64*Math.sqrt(1-r2);
+
+            const granulation =
+                Math.sin(x*.21+Math.sin(y*.14)*2) *
+                Math.cos(y*.24+Math.sin(x*.11)*2);
+
+            const fine=random()*.25;
+
+            const brightness=
+                limb*(.83+granulation*.17+fine);
+
+            for(let k=0;k<3;k++){
+                img.data[i+k]=clamp(
+                    base[k]*brightness+20,0,255
+                );
+            }
+
+            img.data[i+3]=255;
+        }
+    }
+
+    ctx.putImageData(img,0,0);
+    textures.set(key,canvas);
+
+    return canvas;
+}
+
+function drawStar(id,s,zoom=1,photo=true) {
+
+    const {ctx,w,h}=prepare(id);
+    const x=w/2,y=h/2;
+    const r=Math.min(w,h)*.34*zoom;
+
+    const glow=ctx.createRadialGradient(
+        x,y,r*.65,x,y,r*1.5
+    );
+
+    glow.addColorStop(0,s.color+"50");
+    glow.addColorStop(.5,s.color+"15");
+    glow.addColorStop(1,"transparent");
+
+    ctx.fillStyle=glow;
+    ctx.fillRect(0,0,w,h);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,2*PI);
+    ctx.clip();
+
+    ctx.drawImage(
+        makeTexture(s.color,s.id||0),
+        x-r,y-r,r*2,r*2
+    );
+
+    if(photo && s.image){
+
+        let image=imageCache.get(s.image);
+
+        if(!image){
+            image=new Image();
+            imageCache.set(s.image,image);
+
+            image.onload=()=>{
+                renderAtlas();
+                renderComparison();
+            };
+
+            image.src=s.image;
+        }
+
+        if(image.complete && image.naturalWidth){
+            const size=Math.min(
+                image.naturalWidth,image.naturalHeight
+            );
+
+            ctx.drawImage(
+                image,
+                (image.naturalWidth-size)/2,
+                (image.naturalHeight-size)/2,
+                size,size,
+                x-r,y-r,r*2,r*2
+            );
+        }
+    }
+
+    ctx.restore();
+}
+
+/* 04. Planetaryum: bağımsız Three.js modülü */
+function drawSky() {}
+
+/* =====================================
+   05. STELLAR ATLAS
+===================================== */
+
+let selected=0;
+let starZoom=1;
+let showPhoto=true;
+let onlyFavorites=false;
+let favorites=[];
+
+try{
+    favorites=JSON.parse(
+        localStorage.getItem("stellarFavorites")||"[]"
+    );
+    if(!Array.isArray(favorites)) favorites=[];
+}catch{favorites=[];}
+
+function describeStar(s){
+
+    const descriptions={
+        "Ana kol":
+            "Çekirdeğinde hidrojen füzyonu gerçekleşen yıldızdır.",
+        "Kırmızı cüce":
+            "Düşük kütleli ve düşük sıcaklıklı ana kol yıldızıdır. Yakıtını yavaş tüketir.",
+        "Beyaz cüce":
+            "Sürekli çekirdek füzyonu yapmayan yoğun yıldız kalıntısıdır.",
+        "Dev":
+            "Ana kol sonrasında genişlemiş dış katmanlara sahip yıldızdır.",
+        "Altdev":
+            "Ana kol ile dev evresi arasındaki geçiş aşamasında bulunur.",
+        "Süperdev":
+            "Çok yüksek ışınım gücüne ve geniş bir atmosfere sahip evrimleşmiş yıldızdır.",
+        "Hiperdev":
+            "Çok yüksek ışınım gücü ve güçlü madde kaybıyla ilişkili yıldız türüdür.",
+        "Parlak dev":
+            "Normal devlerden daha yüksek ışınım gücüne sahip yıldızdır.",
+        "Wolf-Rayet":
+            "Güçlü yıldız rüzgârları ve karakteristik emisyon çizgileri gösterir."
+    };
+
+    return `${s.name}: ${descriptions[s.group]||""}
+        Etkin sıcaklığı yaklaşık ${fmt(s.T,0)} K,
+        yarıçapı ${fmt(s.R)} Güneş yarıçapıdır.`;
+}
+
+function renderStarList(){
+
+    const q=$("starSearch").value.toLocaleLowerCase("tr-TR");
+    const group=$("starFilter").value;
+
+    const list=stars.filter(s=>
+        s.name.toLocaleLowerCase("tr-TR").includes(q)&&
+        (group==="all"||s.group===group)&&
+        (!onlyFavorites||favorites.includes(s.id))
+    );
+
+    $("starCount").textContent=list.length+" yıldız";
+
+    $("starList").innerHTML="";
+
+    list.forEach(s=>{
+
+        const b=document.createElement("button");
+
+        b.className="star-item"+(s.id===selected?" active":"");
+
+        b.innerHTML=`
+            <span class="dot" style="background:${s.color}"></span>
+            <span>${s.name}<small>${s.type} · ${s.group}</small></span>
+        `;
+
+        b.onclick=()=>selectStar(s.id);
+
+        $("starList").appendChild(b);
+    });
+}
+
+function renderAtlas(){
+
+    const s=stars[selected];
+
+    $("starName").textContent=s.name;
+    $("starType").textContent=s.type+" · "+s.group;
+
+    drawStar("starCanvas",s,starZoom,showPhoto);
+
+    const image=imageCache.get(s.image);
+
+    $("imageStatus").textContent=
+        showPhoto && image && image.naturalWidth
+        ?"YEREL GÖZLEM GÖRSELİ · KAYNAK DOĞRULAMASI GEREKLİ"
+        :"TEMSİLİ SAYISAL YILDIZ MODELİ";
+
+    $("starMetrics").innerHTML=
+        metric("ETKİN SICAKLIK",s.T,"K")+
+        metric("KÜTLE",s.M,"M☉")+
+        metric("YARIÇAP",s.R,"R☉")+
+        metric("IŞINIM GÜCÜ",s.L,"L☉")+
+        metric("UZAKLIK",s.distance,"ışık yılı")+
+        metric("GÖRÜNÜR KADİR",s.mag,"mag");
+
+    $("starDescription").textContent=describeStar(s);
+
+    $("favorite").textContent=favorites.includes(selected)
+        ?"★ Favorilerden çıkar":"☆ Favorilere ekle";
+}
+
+function selectStar(id){
+
+    selected=Number(id);
+    starZoom=1;
+    showPhoto=true;
+
+    renderAtlas();
+    renderStarList();
+}
+
+$("starSearch").oninput=renderStarList;
+$("starFilter").onchange=renderStarList;
+
+$("favoriteFilter").onclick=()=>{
+    onlyFavorites=!onlyFavorites;
+    $("favoriteFilter").classList.toggle("active",onlyFavorites);
+    renderStarList();
+};
+
+$("favorite").onclick=()=>{
+
+    favorites=favorites.includes(selected)
+        ?favorites.filter(id=>id!==selected)
+        :[...favorites,selected];
+
+    try{
+        localStorage.setItem(
+            "stellarFavorites",JSON.stringify(favorites)
+        );
+    }catch{}
+
+    renderAtlas();
+    renderStarList();
+};
+
+$("starZoomIn").onclick=()=>{
+    starZoom=Math.min(2.5,starZoom*1.2);
+    renderAtlas();
+};
+
+$("starZoomOut").onclick=()=>{
+    starZoom=Math.max(.5,starZoom/1.2);
+    renderAtlas();
+};
+
+$("modelToggle").onclick=()=>{
+    showPhoto=!showPhoto;
+    renderAtlas();
+};
+
+$("speak").onclick=()=>{
+
+    if(!("speechSynthesis" in window)) return;
+
+    if(speechSynthesis.speaking){
+        speechSynthesis.cancel();
+        return;
+    }
+
+    const u=new SpeechSynthesisUtterance(
+        describeStar(stars[selected])
+    );
+
+    u.lang="tr-TR";
+    u.rate=.9;
+    speechSynthesis.speak(u);
+};
+
+$("openSpectrum").onclick=()=>{
+    $("spectralStar").value=selected;
+    $("spectralTemp").value=stars[selected].T;
+    drawSpectrum();
+    $("spectrum").scrollIntoView();
+};
+
+$("openPhysics").onclick=()=>{
+    $("physicsStar").value=selected;
+    renderPhysics();
+    $("physics").scrollIntoView();
+};
+
+$("openCompare").onclick=()=>{
+    $("compareA").value=selected;
+    renderComparison();
+    $("comparison").scrollIntoView();
+};
+
+/* =====================================
+   06. COMPARISON
+===================================== */
+
+$("compareA").value=0;
+$("compareB").value=15;
+
+function renderComparison(){
+
+    const a=stars[Number($("compareA").value)];
+    const b=stars[Number($("compareB").value)];
+
+    drawStar("canvasA",a);
+    drawStar("canvasB",b);
+
+    const rows=[
+        ["Sıcaklık (K)","T"],
+        ["Kütle (M☉)","M"],
+        ["Yarıçap (R☉)","R"],
+        ["Işınım gücü (L☉)","L"],
+        ["Uzaklık (ışık yılı)","distance"]
+    ];
+
+    $("compareTable").innerHTML=`
+        <tr><th>Fiziksel özellik</th>
+        <th>${a.name}</th><th>${b.name}</th></tr>
+        ${rows.map(([name,key])=>`
+            <tr><td>${name}</td>
+            <td>${fmt(a[key])}</td>
+            <td>${fmt(b[key])}</td></tr>
+        `).join("")}
+    `;
+
+    const large=a.R>=b.R?a:b;
+    const small=a.R>=b.R?b:a;
+
+    $("compareInsight").textContent=
+        `${large.name}, ${small.name} yıldızının
+         yaklaşık ${fmt(large.R/small.R)} katı
+         yarıçapa sahiptir. Işınım gücü hem
+         yarıçapa hem de etkin sıcaklığa bağlıdır.`;
+}
+
+$("compareA").onchange=renderComparison;
+$("compareB").onchange=renderComparison;
+
+/* =====================================
+   07. STELLAR ANATOMY
+===================================== */
+
+const anatomyModels=[
+
+{
+    name:"Güneş benzeri",
+    layers:[
+        ["Korona",1,"#a5c9ed","Seyrek ve sıcak dış atmosfer."],
+        ["Fotosfer",.91,"#ffc76e","Görünür ışığın büyük bölümünün yayıldığı katman."],
+        ["Konveksiyon bölgesi",.85,"#e57731","Enerji plazmanın hareketiyle taşınır."],
+        ["Işınım bölgesi",.58,"#f5b643","Enerji ışınımsal süreçlerle taşınır."],
+        ["Çekirdek",.23,"#fff2c7","Hidrojen füzyonu. Proton-proton zinciri baskındır."]
+    ]
+},
+
+{
+    name:"Kırmızı cüce",
+    layers:[
+        ["Atmosfer",1,"#ff966d","Dış gaz katmanları."],
+        ["Fotosfer",.9,"#e95d3c","Düşük etkin sıcaklıklı ışık yayan bölge."],
+        ["Konvektif iç yapı",.82,"#ba3827","Çok düşük kütleli yıldızlar tamamen konvektif olabilir."],
+        ["Füzyon bölgesi",.24,"#ffcc80","Hidrojen füzyonu yavaş gerçekleşir."]
+    ]
+},
+
+{
+    name:"Büyük kütleli yıldız",
+    layers:[
+        ["Atmosfer",1,"#b0d1ff","Güçlü yıldız rüzgârları görülebilir."],
+        ["Fotosfer",.91,"#d6e6ff","Yüksek sıcaklıklı ışık yayan bölge."],
+        ["Işınımsal zarf",.82,"#557dcb","Enerji büyük ölçüde ışınımla taşınır."],
+        ["Konvektif çekirdek",.36,"#edf6ff","CNO döngüsü baskın füzyon mekanizması olabilir."]
+    ]
+},
+
+{
+    name:"Kırmızı dev",
+    layers:[
+        ["Atmosfer",1,"#f78b5e","Genişlemiş dış katmanlar."],
+        ["Konvektif zarf",.88,"#c64c2c","Geniş ve görece soğuk dış bölge."],
+        ["Hidrojen kabuğu",.27,"#ffbb55","Çekirdek çevresinde hidrojen füzyonu."],
+        ["Helyum çekirdeği",.15,"#fff0c5","Bu örnekte helyum füzyonu henüz başlamamıştır."]
+    ]
+},
+
+{
+    name:"Beyaz cüce",
+    layers:[
+        ["İnce atmosfer",1,"#dbeaff","Hidrojen veya helyum ağırlıklı olabilir."],
+        ["Dış zarf",.9,"#89a8d8","Isının dışarıya taşındığı katman."],
+        ["Yoğun çekirdek",.78,"#e9f3ff","Elektron dejenerasyon basıncıyla desteklenir."]
+    ]
+}
+
+];
+
+let anatomyIndex=0;
+let anatomyLayer=0;
+
+anatomyModels.forEach((m,i)=>{
+
+    const b=document.createElement("button");
+    b.textContent=m.name;
+
+    b.onclick=()=>{
+        anatomyIndex=i;
+        anatomyLayer=0;
+        renderAnatomy();
+    };
+
+    $("anatomyButtons").appendChild(b);
+});
+
+function renderAnatomy(){
+
+    const m=anatomyModels[anatomyIndex];
+
+    $("anatomyTitle").textContent=m.name;
+
+    $("anatomyLayers").innerHTML="";
+
+    m.layers.forEach((l,i)=>{
+
+        const b=document.createElement("button");
+
+        b.className="option"+(i===anatomyLayer?" active":"");
+
+        b.textContent=l[0];
+
+        b.onclick=()=>{
+            anatomyLayer=i;
+            renderAnatomy();
+        };
+
+        $("anatomyLayers").appendChild(b);
+    });
+
+    $("anatomyInfo").textContent=
+        m.layers[anatomyLayer][3];
+
+    const {ctx,w,h}=prepare("anatomyCanvas");
+
+    const x=w/2,y=h/2;
+    const r=Math.min(w,h)*.4;
+
+    m.layers.forEach((l,i)=>{
+
+        ctx.beginPath();
+        ctx.arc(x,y,r*l[1],0,2*PI);
+        ctx.fillStyle=l[2];
+        ctx.fill();
+
+        ctx.strokeStyle=i===anatomyLayer
+            ?"#ffffff":"#152033";
+
+        ctx.lineWidth=i===anatomyLayer?3:1;
+        ctx.stroke();
+    });
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x,y,r*.91,PI/2,PI*1.5);
+    ctx.closePath();
+    ctx.clip();
+
+    ctx.drawImage(
+        makeTexture(m.layers[1][2],anatomyIndex+60),
+        x-r,y-r,r*2,r*2
+    );
+
+    ctx.restore();
+
+    ctx.fillStyle="#dce7f6";
+    ctx.textAlign="center";
+    ctx.font="13px Arial";
+
+    ctx.fillText(
+        m.layers[anatomyLayer][0],x,h-12
+    );
+}
+
+$("anatomyCanvas").onclick=e=>{
+
+    const rect=$("anatomyCanvas").getBoundingClientRect();
+
+    const d=Math.hypot(
+        e.clientX-rect.left-rect.width/2,
+        e.clientY-rect.top-rect.height/2
+    )/(Math.min(rect.width,rect.height)*.4);
+
+    const layers=anatomyModels[anatomyIndex].layers;
+
+    for(let i=layers.length-1;i>=0;i--){
+        if(d<=layers[i][1]){
+            anatomyLayer=i;
+            renderAnatomy();
+            break;
+        }
+    }
+};
+
+/* =====================================
+   08. PLANCK & WIEN
+===================================== */
+
+function planck(nm,T){
+
+    const l=nm*1e-9;
+
+    return (2*C.h*C.c*C.c/Math.pow(l,5))/
+        Math.expm1(C.h*C.c/(l*C.k*T));
+}
+
+function drawSpectrum(){
+
+    const T=Number($("spectralTemp").value);
+    const peak=C.wien/T*1e9;
+
+    $("spectralValue").textContent=fmt(T,0)+" K";
+    $("peak").textContent=fmt(peak)+" nm";
+
+    $("peakRegion").textContent=
+        peak<380?"Morötesi":
+        peak<=750?"Görünür ışık":"Kızılötesi";
+
+    const {ctx,w,h}=prepare("spectrumCanvas");
+
+    const left=45,right=w-20,top=20,bottom=h-45;
+
+    const X=n=>left+(n-40)/1960*(right-left);
+    const Y=n=>bottom-n*(bottom-top);
+
+    const max=planck(peak,T);
+
+    const grad=ctx.createLinearGradient(
+        X(380),0,X(750),0
+    );
+
+    ["#7700dd","#3344ff","#00baff",
+     "#30cc44","#ffee00","#ff9900","#ff2222"]
+    .forEach((c,i)=>grad.addColorStop(i/6,c));
+
+    ctx.globalAlpha=.18;
+    ctx.fillStyle=grad;
+    ctx.fillRect(X(380),top,X(750)-X(380),bottom-top);
+    ctx.globalAlpha=1;
+
+    ctx.font="10px Arial";
+
+    for(let i=0;i<=4;i++){
+
+        const v=i/4;
+
+        ctx.strokeStyle="#ffffff18";
+        ctx.beginPath();
+        ctx.moveTo(left,Y(v));
+        ctx.lineTo(right,Y(v));
+        ctx.stroke();
+
+        ctx.fillStyle="#9cacc0";
+        ctx.textAlign="right";
+        ctx.fillText(v.toFixed(2),left-5,Y(v)+4);
+    }
+
+    ctx.beginPath();
+
+    for(let n=40;n<=2000;n+=3){
+
+        const x=X(n);
+        const y=Y(planck(n,T)/max);
+
+        if(n===40) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+    }
+
+    ctx.strokeStyle="#9fc9ff";
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    ctx.setLineDash([5,4]);
+    ctx.strokeStyle="#e8b96e";
+
+    ctx.beginPath();
+    ctx.moveTo(X(peak),top);
+    ctx.lineTo(X(peak),bottom);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle="#52637a";
+    ctx.strokeRect(left,top,right-left,bottom-top);
+
+    ctx.fillStyle="#aabbd0";
+    ctx.textAlign="center";
+
+    [100,400,800,1200,1600,2000].forEach(n=>{
+        ctx.fillText(n,X(n),bottom+16);
+    });
+
+    ctx.fillText("Dalga boyu (nm)",w/2,h-8);
+}
+
+$("spectralTemp").oninput=drawSpectrum;
+
+$("spectralStar").onchange=()=>{
+    $("spectralTemp").value=
+        stars[Number($("spectralStar").value)].T;
+    drawSpectrum();
+};
+
+/* =====================================
+   09. ATOMIC SPECTRA
+===================================== */
+
+const elements=[
+    ["Hidrojen",[410.17,434.05,486.13,656.28],
+     "Balmer serisi. A tipi yıldızlarda güçlü hidrojen çizgileri görülebilir."],
+
+    ["Helyum",[402.62,447.15,471.31,492.19,587.56,667.82,706.52],
+     "Nötr helyum çizgileri sıcak yıldızların sınıflandırılmasında kullanılabilir."],
+
+    ["Sodyum",[588.995,589.592],
+     "Sarı bölgede bulunan karakteristik sodyum D çift çizgisi."],
+
+    ["Kalsiyum",[393.366,396.847],
+     "İyonlaşmış kalsiyumun H ve K çizgileri."]
+];
+
+function renderElement(i){
+
+    const e=elements[i];
+
+    $("elementSpectrum").innerHTML="";
+
+    e[1].forEach(n=>{
+
+        const line=document.createElement("div");
+        line.className="spectral-line";
+        line.style.left=(n-380)/370*100+"%";
+        line.title=n+" nm";
+
+        $("elementSpectrum").appendChild(line);
+    });
+
+    $("elementInfo").textContent=
+        e[2]+" Dalga boyları: "+e[1].join(", ")+" nm.";
+}
+
+elements.forEach((e,i)=>{
+    const b=document.createElement("button");
+    b.textContent=e[0];
+    b.onclick=()=>renderElement(i);
+    $("elementButtons").appendChild(b);
+});
+
+function drawDoppler(){
+
+    const v=Number($("velocity").value);
+
+    const rest=656.28;
+    const shift=rest*v/299792.458;
+    const observed=rest+shift;
+
+    $("velocityValue").textContent=fmt(v,0)+" km/s";
+
+    const {ctx,w,h}=prepare("dopplerCanvas");
+
+    const X=n=>30+(n-654)/4.5*(w-60);
+
+    ctx.fillStyle="#b63b30";
+    ctx.fillRect(30,40,w-60,95);
+
+    ctx.fillStyle="#ffffff";
+    ctx.font="12px Arial";
+
+    ctx.fillText("Referans H-alfa",30,20);
+
+    ctx.fillStyle="#e9b5a5";
+    ctx.fillRect(X(rest)-1,40,2,95);
+
+    ctx.fillStyle="#07080c";
+    ctx.fillRect(X(observed)-3,40,6,95);
+
+    ctx.fillStyle="#b7c7dd";
+    ctx.textAlign="center";
+
+    for(let n=654;n<=658;n++){
+        ctx.fillText(n+" nm",X(n),155);
+    }
+
+    $("dopplerInfo").textContent=
+        `Gözlenen dalga boyu: ${fmt(observed,4)} nm.
+         Kayma: ${fmt(shift,4)} nm. `+
+        (v<0?"Maviye kayma: kaynak yaklaşıyor.":
+         v>0?"Kırmızıya kayma: kaynak uzaklaşıyor.":
+         "Radyal Doppler kayması yok.");
+}
+
+$("velocity").oninput=drawDoppler;
+
+/* =====================================
+   10. ELECTROMAGNETIC SPECTRUM
+===================================== */
+
+const waves=[
+    ["Radyo","Radyo dalgaları","Soğuk gaz, pulsarlar ve çeşitli astronomik radyo kaynakları.",2],
+    ["Mikrodalga","Mikrodalgalar","Kozmik mikrodalga arka planı ve moleküler gaz araştırmaları.",4],
+    ["Kızılötesi","Kızılötesi ışınım","Soğuk yıldızlar, toz bulutları ve yıldız oluşum bölgeleri. JWST bu bölgede gözlem yapar.",7],
+    ["Görünür","Görünür ışık","Yıldız fotosferleri, optik spektrumlar ve gökyüzü gözlemleri.",10],
+    ["Morötesi","Morötesi ışınım","Sıcak yıldızlar ve yüksek enerjili yıldız atmosferleri.",15],
+    ["X-ışını","X-ışınları","Chandra; sıcak plazma, süpernova kalıntıları ve kompakt cisim çevrelerini araştırır.",22],
+    ["Gama","Gama ışınları","Çok yüksek enerjili astrofiziksel süreçlerin incelenmesinde kullanılır.",32]
+];
+
+function renderWave(i){
+
+    const wave=waves[i];
+
+    $("waveTitle").textContent=wave[1];
+    $("waveInfo").textContent=wave[2];
+
+    const {ctx,w,h}=prepare("waveCanvas");
+
+    ctx.strokeStyle="#42536a";
+    ctx.beginPath();
+    ctx.moveTo(0,h/2);
+    ctx.lineTo(w,h/2);
+    ctx.stroke();
+
+    ctx.strokeStyle="#9bc8ff";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+
+    for(let x=0;x<w;x++){
+
+        const y=h/2+Math.sin(
+            x/w*wave[3]*2*PI
+        )*h*.28;
+
+        if(x===0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+    }
+
+    ctx.stroke();
+}
+
+waves.forEach((wave,i)=>{
+    const b=document.createElement("button");
+    b.textContent=wave[0];
+    b.onclick=()=>renderWave(i);
+    $("waveButtons").appendChild(b);
+});
+
+/* =====================================
+   11. ASTROPHYSICS
+===================================== */
+
+function renderPhysics(){
+
+    const s=stars[Number($("physicsStar").value)];
+
+    const R=s.R*C.R;
+    const M=s.M===null?null:s.M*C.M;
+
+    const V=4/3*PI*R**3;
+    const area=4*PI*R**2;
+
+    const calculatedL=area*C.sigma*s.T**4;
+
+    const values=[
+        ["Yüzey kütleçekimi",M===null?null:C.G*M/R**2,"m/s²","g = GM/R²"],
+        ["Ortalama yoğunluk",M===null?null:M/V,"kg/m³","ρ = M/V"],
+        ["Kaçış hızı",M===null?null:Math.sqrt(2*C.G*M/R)/1000,"km/s","v = √(2GM/R)"],
+        ["Yüzey alanı",area,"m²","A = 4πR²"],
+        ["Hacim",V,"m³","V = 4πR³/3"],
+        ["Katalog ışınım gücü",s.L*C.L,"W","L = L☉ × oran"],
+        ["Hesaplanan ışınım gücü",calculatedL,"W","L = 4πR²σT⁴"],
+        ["Tepe dalga boyu",C.wien/s.T*1e9,"nm","λmax = b/T"],
+        ["Açısal çap",s.distance>0
+            ?2*R/(s.distance*C.ly)*206264806.247:null,
+            "mas","θ ≈ 2R/d"]
+    ];
+
+    $("physicsMetrics").innerHTML=values.map(v=>`
+        <div class="panel">
+            ${metric(v[0],v[1],v[2])}
+            <div class="formula">${v[3]}</div>
+        </div>
+    `).join("");
+
+    const diff=Math.abs(calculatedL-s.L*C.L)/(s.L*C.L)*100;
+
+    $("physicsNote").textContent=
+        `Katalog ve Stefan–Boltzmann hesabı arasındaki
+         fark: %${fmt(diff)}. Hesaplamalar küresel yıldız
+         varsayımına dayanır. Yaklaşık ve farklı
+         kaynaklardan alınan parametreler tam uyumlu
+         olmayabilir.`;
+}
+
+$("physicsStar").onchange=renderPhysics;
+
+/* =====================================
+   12. CUSTOM STAR
+===================================== */
+
+let labStar={};
+
+function updateLab(){
+
+    const T=Number($("labTemp").value);
+    const R=10**Number($("labRadius").value);
+    const M=10**Number($("labMass").value);
+
+    const L=R**2*(T/5772)**4;
+
+    labStar={
+        id:100,T,R,M,L,
+        color:temperatureColor(T)
+    };
+
+    $("labTempValue").textContent=fmt(T,0)+" K";
+    $("labRadiusValue").textContent=fmt(R,3)+" R☉";
+    $("labMassValue").textContent=fmt(M,3)+" M☉";
+    $("labLuminosity").textContent=fmt(L)+" L☉";
+
+    $("labDensity").textContent=
+        fmt(M*C.M/(4/3*PI*(R*C.R)**3))+" kg/m³";
+
+    $("labInfo").textContent=
+        `Modelin ışınım gücü Güneş'in ${fmt(L)}
+         katıdır. Sıcaklık ve yarıçap bağımsız
+         deney değişkenleri olarak kullanılmıştır.`;
+
+    drawStar("labCanvas",labStar,1,false);
+    drawHR();
+}
+
+["labTemp","labRadius","labMass"].forEach(id=>{
+    $(id).oninput=updateLab;
+});
+
+$("resetLab").onclick=()=>{
+    $("labTemp").value=5772;
+    $("labRadius").value=0;
+    $("labMass").value=0;
+    updateLab();
+};
+
+/* =====================================
+   13. H-R DIAGRAM
+===================================== */
+
+let radiusLines=true;
+let customHR=true;
+let hrPoints=[];
+
+function drawHR(){
+
+    const {ctx,w,h}=prepare("hrCanvas");
+
+    const left=65,right=w-25,top=45,bottom=h-50;
+
+    const X=T=>left+
+        Math.log10(50000/T)/Math.log10(50000/2500)*
+        (right-left);
+
+    const Y=L=>top+(7-Math.log10(L))/13*(bottom-top);
+
+    const gradient=ctx.createLinearGradient(left,0,right,0);
+
+    gradient.addColorStop(0,"#88aaff");
+    gradient.addColorStop(.5,"#fff2d8");
+    gradient.addColorStop(1,"#ff6840");
+
+    ctx.fillStyle=gradient;
+    ctx.fillRect(left,top-13,right-left,5);
+
+    ctx.font="11px Arial";
+
+    for(let n=-6;n<=7;n++){
+
+        const y=Y(10**n);
+
+        ctx.strokeStyle="#ffffff14";
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(right,y);
+        ctx.stroke();
+
+        ctx.fillStyle="#9aadc5";
+        ctx.textAlign="right";
+        ctx.fillText("10^"+n,left-7,y+4);
+    }
+
+    [50000,20000,10000,6000,3500,2500].forEach(T=>{
+
+        const x=X(T);
+
+        ctx.strokeStyle="#ffffff14";
+        ctx.beginPath();
+        ctx.moveTo(x,top);
+        ctx.lineTo(x,bottom);
+        ctx.stroke();
+
+        ctx.fillStyle="#aabbd0";
+        ctx.textAlign="center";
+        ctx.fillText(T,x,bottom+18);
+    });
+
+    ctx.save();
+
+    ctx.beginPath();
+    ctx.rect(left,top,right-left,bottom-top);
+    ctx.clip();
+
+    if(radiusLines){
+
+        [.01,.1,1,10,100,1000].forEach(R=>{
+
+            ctx.setLineDash([4,5]);
+            ctx.strokeStyle="#82a9d955";
+            ctx.beginPath();
+
+            for(let i=0;i<=100;i++){
+
+                const T=50000*(2500/50000)**(i/100);
+                const L=R*R*(T/5772)**4;
+
+                if(i===0)ctx.moveTo(X(T),Y(L));
+                else ctx.lineTo(X(T),Y(L));
+            }
+
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle="#8ba9ce";
+            ctx.textAlign="left";
+
+            ctx.fillText(
+                R+" R☉",
+                X(8000),
+                Y(R*R*(8000/5772)**4)-5
+            );
+        });
+    }
+
+    const filter=$("hrFilter").value;
+
+    hrPoints=stars.filter(s=>
+        filter==="all"||s.group===filter
+    ).map(s=>({s,x:X(s.T),y:Y(s.L)}));
+
+    hrPoints.forEach(p=>{
+
+        ctx.fillStyle=p.s.color;
+        ctx.shadowColor=p.s.color;
+        ctx.shadowBlur=7;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,4.5,0,2*PI);
+        ctx.fill();
+
+        ctx.shadowBlur=0;
+
+        if([0,2,3,13,15,16,9].includes(p.s.id)){
+
+            ctx.font="10px Arial";
+            ctx.fillStyle="#d4e0f0";
+            ctx.textAlign="left";
+            ctx.fillText(p.s.name,p.x+7,p.y-7);
+        }
+    });
+
+    if(customHR && labStar.T){
+
+        ctx.strokeStyle="#ffffff";
+        ctx.lineWidth=2;
+        ctx.beginPath();
+        ctx.arc(X(labStar.T),Y(labStar.L),9,0,2*PI);
+        ctx.stroke();
+    }
+
+    ctx.restore();
+
+    ctx.strokeStyle="#53657e";
+    ctx.strokeRect(left,top,right-left,bottom-top);
+
+    ctx.fillStyle="#aebfd5";
+    ctx.textAlign="center";
+    ctx.fillText("Etkin sıcaklık (K)",w/2,h-8);
+
+    ctx.save();
+    ctx.translate(13,h/2);
+    ctx.rotate(-PI/2);
+    ctx.fillText("Toplam ışınım gücü (L☉)",0,0);
+    ctx.restore();
+}
+
+$("hrFilter").onchange=drawHR;
+
+$("radiusLines").onclick=()=>{
+    radiusLines=!radiusLines;
+    $("radiusLines").classList.toggle("active",radiusLines);
+    drawHR();
+};
+
+$("customHR").onclick=()=>{
+    customHR=!customHR;
+    $("customHR").classList.toggle("active",customHR);
+    drawHR();
+};
+
+function nearestHR(e){
+
+    const rect=$("hrCanvas").getBoundingClientRect();
+
+    const x=e.clientX-rect.left;
+    const y=e.clientY-rect.top;
+
+    return hrPoints.map(p=>({
+        ...p,d:Math.hypot(p.x-x,p.y-y)
+    })).sort((a,b)=>a.d-b.d)[0];
+}
+
+$("hrCanvas").onpointermove=e=>{
+
+    const p=nearestHR(e);
+
+    if(p&&p.d<18){
+
+        $("hrInfo").textContent=
+            `${p.s.name} | ${p.s.type} |
+             ${fmt(p.s.T)} K |
+             ${fmt(p.s.L)} L☉ |
+             ${fmt(p.s.R)} R☉`;
+    }
+};
+
+$("hrCanvas").onclick=e=>{
+
+    const p=nearestHR(e);
+
+    if(p&&p.d<18){
+        selectStar(p.s.id);
+        $("atlas").scrollIntoView();
+    }
+};
+
+/* =====================================
+   14. STELLAR EVOLUTION
+===================================== */
+
+function renderEvolution(){
+
+    const M=10**Number($("evolutionMass").value);
+    const progress=Number($("evolutionTime").value);
+
+    $("evolutionMassValue").textContent=fmt(M,3)+" M☉";
+
+    let phases;
+
+    if(M<.075){
+
+        phases=[
+            ["Ön yıldız","#cc985d",40,"Gaz ve toz kütleçekimiyle yoğunlaşır."],
+            ["Kahverengi cüce","#ad6039",35,"Sürekli hidrojen füzyonu için yeterli kütleye sahip değildir."],
+            ["Soğuma","#774130",30,"Zamanla soğur ve ışınım gücü azalır."]
+        ];
+
+    }else if(M<.5){
+
+        phases=[
+            ["Ön yıldız","#d5a16d",40,"Kütleçekimsel büzülme."],
+            ["Kırmızı cüce","#e65b37",45,"Çok uzun süre hidrojen füzyonu yapar."],
+            ["Öngörülen ileri evrim","#d7ac83",35,"Bu yıldızların ileri evrimi henüz doğrudan gözlenmemiştir."],
+            ["Beyaz cüce","#dceaff",18,"Kuramsal uzun vadeli yıldız kalıntısı."]
+        ];
+
+    }else if(M<8){
+
+        phases=[
+            ["Bulutsu / Ön yıldız","#bb8b6c",40,"Gaz ve toz yoğunlaşarak ön yıldızı oluşturur."],
+            ["Ana kol",temperatureColor(5772*Math.sqrt(M)),50,"Çekirdekte hidrojen füzyonu."],
+            ["Kırmızı dev","#ed693d",85,"Dış katmanlar genişler. Çekirdek evrimleşir."],
+            ["Dış katman kaybı","#b8a6cf",65,"Yıldızın dış katmanları uzaya dağılabilir."],
+            ["Beyaz cüce","#e3edff",18,"Yoğun yıldız kalıntısı zamanla soğur."]
+        ];
+
+    }else{
+
+        phases=[
+            ["Ön yıldız","#cc9868",40,"Büyük kütleli yıldız oluşumu."],
+            ["Büyük kütleli ana kol","#a3c3ff",60,"Yüksek hızda nükleer füzyon."],
+            ["Evrimleşmiş yıldız","#f46b42",85,"İleri füzyon aşamaları ve madde kaybı."],
+            ["Çekirdek çökmesi","#ead0a5",45,"Bazı yıldızlar süpernova oluşturur."],
+            ["Kompakt kalıntı","#b7cbe4",18,"Nötron yıldızı veya kara delik oluşabilir."]
+        ];
+    }
+
+    const index=Math.min(
+        phases.length-1,
+        Math.floor(progress/100*phases.length)
+    );
+
+    $("evolutionSteps").innerHTML=phases.map((p,i)=>`
+        <div class="evolution-step ${i===index?"active":""}">
+            <div class="evolution-orb"
+                style="width:${p[2]}px;height:${p[2]}px;--color:${p[1]}">
+            </div>
+            <small>AŞAMA ${i+1}</small>
+            <div>${p[0]}</div>
+        </div>
+    `).join("");
+
+    $("evolutionTitle").textContent=phases[index][0];
+    $("evolutionInfo").textContent=phases[index][3];
+
+    $("lifetime").textContent=
+        M>=.5&&M<=2
+        ?fmt(10*M**-2.5)+" milyar yıl"
+        :"Ayrıntılı model gerekli";
+}
+
+$("evolutionMass").oninput=renderEvolution;
+$("evolutionTime").oninput=renderEvolution;
+
+/* =====================================
+   15. COSMIC SCALE
+===================================== */
+
+let scaleLog=true;
+
+function drawScale(){
+
+    const {ctx,w,h}=prepare("scaleCanvas");
+
+    const key=$("scaleProperty").value;
+
+    const ids=[2,9,0,1,11,13,15,22,23];
+
+    const data=ids.map(id=>stars[id]).map(s=>({
+        s,value:key==="volume"?s.R**3:
+        key==="radius"?s.R:
+        key==="mass"?s.M:s.L
+    })).filter(o=>o.value!==null)
+    .sort((a,b)=>a.value-b.value);
+
+    const max=Math.max(...data.map(o=>o.value));
+    const min=Math.min(...data.map(o=>o.value));
+
+    const logMin=Math.floor(Math.log10(min))-1;
+    const logMax=Math.ceil(Math.log10(max))+1;
+
+    const left=Math.min(150,w*.32);
+    const width=Math.max(20,w-left-90);
+    const row=(h-25)/data.length;
+
+    data.forEach((o,i)=>{
+
+        const y=12+i*row;
+
+        const ratio=scaleLog
+            ?(Math.log10(o.value)-logMin)/(logMax-logMin)
+            :o.value/max;
+
+        ctx.font="11px Arial";
+        ctx.textAlign="right";
+        ctx.fillStyle="#d3deed";
+        ctx.fillText(o.s.name,left-8,y+15);
+
+        ctx.fillStyle="#192638";
+        ctx.fillRect(left,y,width,18);
+
+        ctx.fillStyle=o.s.color;
+        ctx.fillRect(left,y,width*ratio,18);
+
+        ctx.textAlign="left";
+        ctx.fillStyle="#b5c5da";
+        ctx.fillText(fmt(o.value),left+width+7,y+14);
+    });
+
+    $("scaleInfo").textContent=
+        (scaleLog
+        ?"Logaritmik gösterim: çubuklar fiziksel uzunluklarla doğrusal orantılı değildir."
+        :"Doğrusal gösterim: çubuklar seçilen büyüklüğün gerçek oranlarını gösterir.")+
+        " Bütün değerler Güneş'e göre oranlanmıştır.";
+}
+
+$("scaleProperty").onchange=drawScale;
+
+$("scaleMode").onclick=()=>{
+    scaleLog=!scaleLog;
+    $("scaleMode").textContent=
+        scaleLog?"Logaritmik ölçek":"Doğrusal ölçek";
+    drawScale();
+};
+
+/* =====================================
+   16. PARALLAX
+===================================== */
+
+let earthSide=-1;
+
+function drawParallax(){
+
+    const p=10**Number($("parallax").value);
+    const pc=1000/p;
+    const ly=pc*3.26156;
+
+    $("parallaxValue").textContent=fmt(p)+" mas";
+    $("parsec").textContent=fmt(pc)+" pc";
+    $("lightYear").textContent=fmt(ly)+" ışık yılı";
+
+    const {ctx,w,h}=prepare("parallaxCanvas");
+
+    const x=w/2;
+    const sunY=h*.8;
+    const starY=h*.12;
+
+    const orbit=clamp(
+        35+Math.log10(p)*20,35,w*.3
+    );
+
+    const earthX=x+earthSide*orbit;
+
+    ctx.strokeStyle="#506986";
+    ctx.beginPath();
+    ctx.ellipse(x,sunY,orbit,20,0,0,2*PI);
+    ctx.stroke();
+
+    ctx.setLineDash([5,4]);
+    ctx.beginPath();
+    ctx.moveTo(x,sunY);
+    ctx.lineTo(x,starY);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+    ctx.strokeStyle="#a5c9ff";
+    ctx.beginPath();
+    ctx.moveTo(earthX,sunY);
+    ctx.lineTo(x,starY);
+    ctx.stroke();
+
+    function point(px,py,r,color,name){
+
+        ctx.fillStyle=color;
+        ctx.beginPath();
+        ctx.arc(px,py,r,0,2*PI);
+        ctx.fill();
+
+        ctx.fillStyle="#c7d6e8";
+        ctx.font="12px Arial";
+        ctx.textAlign="center";
+        ctx.fillText(name,px,py+r+17);
+    }
+
+    point(x,sunY,15,"#ffc169","Güneş");
+    point(earthX,sunY,8,"#72aaff","Dünya");
+    point(x,starY,8,"#e7efff","Yıldız");
+
+    ctx.fillText(
+        "p = "+fmt(p)+" mas",
+        x,h*.4
+    );
+}
+
+$("parallax").oninput=drawParallax;
+
+$("earthPosition").onclick=()=>{
+    earthSide*=-1;
+    drawParallax();
+};
+
+/* =====================================
+   17. THREE-DIMENSIONAL COORDINATES
+===================================== */
+
+const localStars=stars.filter(s=>
+    s.distance!==null &&
+    s.distance<=80 &&
+    s.ra!==null
+).map(s=>{
+
+    const a=s.ra*15*RAD;
+    const d=s.dec*RAD;
+    const r=s.distance;
+
+    return {
+        s,
+        x:r*Math.cos(d)*Math.cos(a),
+        y:r*Math.cos(d)*Math.sin(a),
+        z:r*Math.sin(d)
+    };
+});
+
+let mapAngle=.5;
+let mapTilt=.45;
+let mapZoom=1;
+let distancePoints=[];
+
+function drawDistance(){
+
+    const {ctx,w,h}=prepare("distanceCanvas");
+
+    const scale=Math.min(w,h)/180*mapZoom;
+
+    function project(x,y,z){
+
+        const X=x*Math.cos(mapAngle)-y*Math.sin(mapAngle);
+        const Y=x*Math.sin(mapAngle)+y*Math.cos(mapAngle);
+
+        return {
+            x:w/2+X*scale,
+            y:h/2-(z*Math.cos(mapTilt)-Y*Math.sin(mapTilt))*scale
+        };
+    }
+
+    ctx.strokeStyle="#6586af28";
+
+    for(let i=-80;i<=80;i+=20){
+
+        const a=project(i,-80,0);
+        const b=project(i,80,0);
+        const c=project(-80,i,0);
+        const d=project(80,i,0);
+
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(b.x,b.y);
+        ctx.moveTo(c.x,c.y);
+        ctx.lineTo(d.x,d.y);
+        ctx.stroke();
+    }
+
+    const origin=project(0,0,0);
+
+    ctx.fillStyle="#ffcf7c";
+    ctx.beginPath();
+    ctx.arc(origin.x,origin.y,6,0,2*PI);
+    ctx.fill();
+
+    ctx.font="11px Arial";
+    ctx.fillText("Güneş",origin.x+9,origin.y);
+
+    distancePoints=localStars.map(o=>({
+        ...o,p:project(o.x,o.y,o.z)
+    }));
+
+    distancePoints.forEach(o=>{
+
+        ctx.strokeStyle="#7798bf30";
+        ctx.beginPath();
+        ctx.moveTo(origin.x,origin.y);
+        ctx.lineTo(o.p.x,o.p.y);
+        ctx.stroke();
+
+        ctx.fillStyle=o.s.color;
+        ctx.beginPath();
+        ctx.arc(o.p.x,o.p.y,4,0,2*PI);
+        ctx.fill();
+
+        if(![2,26,27].includes(o.s.id)){
+            ctx.fillStyle="#b5c8df";
+            ctx.fillText(o.s.name,o.p.x+6,o.p.y-6);
+        }
+    });
+
+    ctx.fillStyle="#92a8c3";
+    ctx.fillText("Izgara: 20 ışık yılı",15,20);
+}
+
+$("distanceLeft").onclick=()=>{
+    mapAngle-=.25;drawDistance();
+};
+
+$("distanceRight").onclick=()=>{
+    mapAngle+=.25;drawDistance();
+};
+
+$("distanceZoom").onclick=()=>{
+    mapZoom=Math.min(5,mapZoom*1.25);drawDistance();
+};
+
+$("distanceReset").onclick=()=>{
+    mapAngle=.5;mapTilt=.45;mapZoom=1;drawDistance();
+};
+
+let mapDrag=null;
+
+$("distanceCanvas").onpointerdown=e=>{
+    mapDrag={x:e.clientX,y:e.clientY,moved:0};
+    $("distanceCanvas").setPointerCapture(e.pointerId);
+};
+
+$("distanceCanvas").onpointermove=e=>{
+
+    if(!mapDrag)return;
+
+    const dx=e.clientX-mapDrag.x;
+    const dy=e.clientY-mapDrag.y;
+
+    mapDrag.moved+=Math.abs(dx)+Math.abs(dy);
+
+    mapAngle+=dx*.008;
+    mapTilt=clamp(mapTilt+dy*.008,-PI/2,PI/2);
+
+    mapDrag.x=e.clientX;
+    mapDrag.y=e.clientY;
+
+    drawDistance();
+};
+
+$("distanceCanvas").onpointerup=e=>{
+
+    if(!mapDrag)return;
+
+    if(mapDrag.moved<5){
+
+        const rect=$("distanceCanvas").getBoundingClientRect();
+
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+
+        const nearest=distancePoints.map(o=>({
+            ...o,d:Math.hypot(o.p.x-x,o.p.y-y)
+        })).sort((a,b)=>a.d-b.d)[0];
+
+        if(nearest&&nearest.d<20){
+
+            $("distanceInfo").textContent=
+                `${nearest.s.name}: yaklaşık
+                 ${fmt(nearest.s.distance,4)} ışık yılı.
+                 Bugün gördüğümüz ışık yaklaşık
+                 ${fmt(nearest.s.distance,4)} yıl önce
+                 yola çıkmıştır.`;
+        }
+    }
+
+    mapDrag=null;
+};
+
+$("distanceCanvas").onpointercancel=()=>mapDrag=null;
+
+/* =====================================
+   18. SCIENTIFIC MISSIONS
+===================================== */
+
+const missions=[
+    ["Sıcaklığın etkisi",
+     "Güneş ve Vega'nın tepe dalga boylarını karşılaştır.",
+     "spectrum","Vega daha sıcaktır; tepe dalga boyu daha küçüktür."],
+
+    ["Yoğun yıldız kalıntısı",
+     "Güneş ile Sirius B'nin ortalama yoğunluklarını karşılaştır.",
+     "physics","Sirius B çok daha yoğundur."],
+
+    ["Yıldızın uzaklığı",
+     "Paralaksı 100 mas yap ve uzaklığı hesapla.",
+     "distance","10 parsek, yaklaşık 32,6 ışık yılı."],
+
+    ["Işınım gücü",
+     "Yarıçapı sabit tutarak sıcaklığı iki katına çıkar.",
+     "laboratory","Işınım gücü 16 katına çıkar."],
+
+    ["Güneş'in geleceği",
+     "Bir Güneş kütleli yıldızın evrimini incele.",
+     "evolution","Beklenen son kalıntı beyaz cücedir."],
+
+    ["Hareketli yıldız",
+     "Negatif radyal hızın spektral etkisini incele.",
+     "spectrum","Maviye kayma gerçekleşir."]
+];
+
+$("missions").innerHTML=missions.map((m,i)=>`
+    <div class="panel">
+        <div class="eyebrow">EXPERIMENT 0${i+1}</div>
+        <h3>${m[0]}</h3>
+        <p class="muted">${m[1]}</p>
+        <a href="#${m[2]}">Laboratuvarı aç →</a>
+        <details>
+            <summary>Sonucu göster</summary>
+            <p>${m[3]}</p>
+        </details>
+    </div>
+`).join("");
+
+/* =====================================
+   19. ASTRONOMY QUIZ
+===================================== */
+
+const questions=[
+
+["Yıldızın rengi hangi özellikle yakından ilişkilidir?",
+["Sıcaklık","Uzaklık","Gezegen sayısı"],0],
+
+["Hangi yıldız genellikle daha sıcaktır?",
+["Kırmızı","Mavi","Turuncu"],1],
+
+["Güneş hangi evrededir?",
+["Beyaz cüce","Ana kol","Kırmızı dev"],1],
+
+["Yıldız evrimini etkileyen temel özellik nedir?",
+["Başlangıç kütlesi","Adı","Takımyıldızı"],0],
+
+["Beyaz cüceler genellikle nasıldır?",
+["Çok büyük ve seyrek","Küçük ve yoğun","Soğuk gezegenler"],1],
+
+["Sabit sıcaklıkta yarıçap iki katına çıkarsa ışınım gücü?",
+["2 kat","4 kat","8 kat"],1],
+
+["H-R diyagramında sıcaklık hangi yönde azalır?",
+["Sağa","Sola","Yukarı"],0],
+
+["Betelgeuse hangi yıldız grubundadır?",
+["Beyaz cüce","Kırmızı süperdev","Kırmızı cüce"],1],
+
+["Güneş'in beklenen son kalıntısı nedir?",
+["Nötron yıldızı","Beyaz cüce","Kara delik"],1],
+
+["Sabit yarıçapta sıcaklık iki katına çıkarsa ışınım gücü?",
+["4 kat","8 kat","16 kat"],2],
+
+["Bir parsek yaklaşık kaç ışık yılıdır?",
+["3,26","10","100"],0],
+
+["Maviye kayma neyi gösterebilir?",
+["Kaynağın uzaklaşmasını","Kaynağın yaklaşmasını","Füzyonun durmasını"],1],
+
+["Güneş'in temel enerji kaynağı nedir?",
+["Kimyasal yanma","Nükleer füzyon","Yansıma"],1],
+
+["Wien yasasına göre sıcaklık artarsa tepe dalga boyu?",
+["Artar","Azalır","Değişmez"],1],
+
+["Sabit kütlede yarıçap azalırsa yüzey kütleçekimi?",
+["Artar","Azalır","Değişmez"],0],
+
+["Daha büyük paralaks genellikle neyi gösterir?",
+["Daha uzak yıldız","Daha yakın yıldız","Daha sıcak yıldız"],1],
+
+["Güneş'in görünür ışığı ağırlıklı olarak nereden yayılır?",
+["Çekirdek","Fotosfer","Korona"],1],
+
+["Kara cisim spektrumu hangi yasayla açıklanır?",
+["Ohm","Planck","Hooke"],1],
+
+["Görünür parlaklık uzaklığa bağlı mıdır?",
+["Evet","Hayır","Sadece Güneş için"],0],
+
+["Konveksiyon nedir?",
+["Maddenin hareketiyle enerji taşınımı","Füzyon","Paralaks"],0],
+
+["Yarıçap iki katına çıkarsa küresel hacim?",
+["2 kat","4 kat","8 kat"],2],
+
+["Beyaz cüceleri hangi mekanizma destekler?",
+["Elektron dejenerasyon basıncı","Kimyasal yanma","Güneş rüzgârı"],0],
+
+["Işık yılı hangi büyüklüğün birimidir?",
+["Zaman","Uzaklık","Sıcaklık"],1],
+
+["Spektral çizgiler hangi bilgiyi verebilir?",
+["Kimyasal bileşim","Yıldızın adı","Gezegen sayısı"],0],
+
+["100 mas paralaks kaç parsektir?",
+["1","10","100"],1],
+
+["Kütle ve yarıçaptan hangisi hesaplanabilir?",
+["Kesin yaş","Ortalama yoğunluk","Gezegen sayısı"],1],
+
+["Güneş'te baskın füzyon mekanizması?",
+["Proton-proton zinciri","Kimyasal yanma","Radyo ışınımı"],0],
+
+["Kırmızı cüceler neden uzun ömürlüdür?",
+["Yakıtlarını yavaş tüketirler","Füzyon yapmazlar","Gezegendirler"],0],
+
+["Chandra hangi ışınım türünü gözlemler?",
+["X-ışını","Radyo","Görünür ışık"],0],
+
+["Bilimsel simülasyon gerçek gözlemle aynı şey midir?",
+["Her zaman","Hayır","Renkliyse evet"],1]
+
+];
+
+let quizIndex=0;
+let score=0;
+let answered=false;
+
+function renderQuiz(){
+
+    answered=false;
+
+    const q=questions[quizIndex];
+
+    $("quizCounter").textContent=
+        `ASTRONOMY ASSESSMENT / ${quizIndex+1} — ${questions.length}`;
+
+    $("quizProgress").style.width=
+        quizIndex/questions.length*100+"%";
+
+    $("quizQuestion").textContent=q[0];
+    $("quizOptions").innerHTML="";
+    $("quizFeedback").textContent="";
+    $("quizNext").hidden=true;
+
+    q[1].forEach((option,i)=>{
+
+        const b=document.createElement("button");
+        b.className="option";
+        b.textContent=String.fromCharCode(65+i)+". "+option;
+
+        b.onclick=()=>{
+
+            if(answered)return;
+            answered=true;
+
+            const buttons=$("quizOptions").children;
+
+            [...buttons].forEach((button,j)=>{
+
+                button.disabled=true;
+
+                if(j===q[2])button.classList.add("correct");
+                else if(j===i)button.classList.add("wrong");
+            });
+
+            if(i===q[2])score++;
+
+            $("quizFeedback").textContent=
+                i===q[2]?"Doğru cevap!":
+                "Doğru cevap: "+q[1][q[2]];
+
+            $("quizProgress").style.width=
+                (quizIndex+1)/questions.length*100+"%";
+
+            $("quizNext").hidden=false;
+
+            $("quizNext").textContent=
+                quizIndex===questions.length-1
+                ?"Sonucu göster":"Sonraki soru →";
+        };
+
+        $("quizOptions").appendChild(b);
+    });
+}
+
+$("quizNext").onclick=()=>{
+
+    quizIndex++;
+
+    if(quizIndex<questions.length){
+        renderQuiz();
+        return;
+    }
+
+    $("quizCounter").textContent="TEST TAMAMLANDI";
+
+    $("quizQuestion").textContent=
+        `${score} / ${questions.length} doğru`;
+
+    $("quizOptions").innerHTML="";
+    $("quizFeedback").textContent=
+        "Başarı oranı: %"+Math.round(score/questions.length*100);
+
+    $("quizNext").hidden=true;
+
+    const b=document.createElement("button");
+    b.textContent="Tekrar başla";
+
+    b.onclick=()=>{
+        quizIndex=0;
+        score=0;
+        renderQuiz();
+    };
+
+    $("quizOptions").appendChild(b);
+};
+
+/* =====================================
+   20. SCIENTIFIC DICTIONARY
+===================================== */
+
+const dictionary=[
+
+["Ana kol","Çekirdeğinde hidrojen füzyonu gerçekleşen yıldızların evresi."],
+["Astrofizik","Gök cisimlerinin fiziksel özelliklerini inceleyen bilim dalı."],
+["Astronomik birim","149.597.870.700 metreye eşit uzaklık birimi."],
+["Beyaz cüce","Elektron dejenerasyon basıncıyla desteklenen yoğun yıldız kalıntısı."],
+["Bulutsu","Yıldızlararası gaz ve toz bulutu."],
+["CNO döngüsü","Karbon, azot ve oksijenin aracılık ettiği hidrojen füzyonu."],
+["Dik açıklık","Gök ekvatoruna göre kuzey-güney açısal koordinatı."],
+["Doppler etkisi","Göreli hareket nedeniyle gözlenen dalga boyunun değişmesi."],
+["Etkin sıcaklık","Yıldızın birim yüzey alanından yaydığı toplam enerjiyle ilişkili sıcaklık."],
+["Fotosfer","Yıldızın görünür ışığının büyük bölümünün yayıldığı katman."],
+["Füzyon","Hafif atom çekirdeklerinin birleşmesi."],
+["Görünür kadir","Gök cisminin gözlemciye görünen parlaklığının logaritmik ölçüsü."],
+["H-R diyagramı","Yıldız sıcaklıkları ile ışınım güçleri arasındaki ilişkiyi gösteren grafik."],
+["Hidrostatik denge","Basınç gradyanı ile kütleçekiminin dengelenmesi."],
+["Işık yılı","Işığın boşlukta bir Jülyen yılında aldığı yol."],
+["Işınım gücü","Bir cismin birim zamanda yaydığı toplam enerji."],
+["Kara cisim","Gelen ışınımı tamamen soğuran ideal fiziksel model."],
+["Kara delik","Olay ufkunun içinden dışarıya ışığın ulaşamadığı uzay-zaman bölgesi."],
+["Kırmızı cüce","Düşük kütleli ana kol yıldızı."],
+["Kırmızı dev","Ana kol sonrasında genişlemiş yıldız."],
+["Konveksiyon","Maddenin hareketiyle enerji taşınımı."],
+["Korona","Seyrek ve sıcak dış yıldız atmosferi."],
+["Metal bolluğu","Hidrojen ve helyumdan ağır elementlerin bolluğu."],
+["Nötron yıldızı","Bazı büyük kütleli yıldızların yoğun kompakt kalıntısı."],
+["Paralaks","Gözlem konumu değişince görünen konumun değişmesi."],
+["Parsek","Yaklaşık 3,26 ışık yılına eşit uzaklık birimi."],
+["Planck yasası","Kara cisim ışınımının dalga boyuna bağlı dağılımı."],
+["Radyal hız","Görüş doğrultusundaki hız bileşeni."],
+["Sağ açıklık","Gök ekvatoru boyunca ölçülen astronomik koordinat."],
+["Spektroskopi","Işınımın dalga boylarına ayrılarak incelenmesi."],
+["Stefan–Boltzmann yasası","Birim yüzey alanından yayılan enerjinin sıcaklığın dördüncü kuvvetiyle orantısı."],
+["Süpernova","Bazı yıldızların evriminde meydana gelen çok parlak astronomik patlama."],
+["Wien yasası","Tepe dalga boyunun sıcaklıkla ters orantılı olması."]
+
+];
+
+function renderDictionary(){
+
+    const q=$("dictionarySearch").value
+        .toLocaleLowerCase("tr-TR");
+
+    $("dictionary").innerHTML=dictionary.filter(d=>
+        d.join(" ").toLocaleLowerCase("tr-TR").includes(q)
+    ).map(d=>`
+        <details>
+            <summary>${d[0]}</summary>
+            <p>${d[1]}</p>
+        </details>
+    `).join("");
+}
+
+$("dictionarySearch").oninput=renderDictionary;
+
+/* =====================================
+   21. SCIENTIFIC DATA EXPORT
+===================================== */
+
+function sourceLink(s){
+
+    if(s.id===0)return "https://science.nasa.gov/sun/";
+
+    const name=s.name==="Barnard Yıldızı"
+        ?"Barnard's Star":s.name;
+
+    return "https://simbad.cds.unistra.fr/simbad/sim-id?Ident="+
+        encodeURIComponent(name);
+}
+
+$("dataTable").innerHTML=`
+    <tr>
+        <th>Yıldız</th>
+        <th>Sınıf</th>
+        <th>T (K)</th>
+        <th>M☉</th>
+        <th>R☉</th>
+        <th>L☉</th>
+        <th>Uzaklık (ly)</th>
+        <th>Veri araştır</th>
+    </tr>
+
+    ${stars.map(s=>`
+        <tr>
+            <td>${s.name}</td>
+            <td>${s.type}</td>
+            <td>${fmt(s.T)}</td>
+            <td>${fmt(s.M)}</td>
+            <td>${fmt(s.R)}</td>
+            <td>${fmt(s.L)}</td>
+            <td>${fmt(s.distance)}</td>
+            <td><a href="${sourceLink(s)}"
+                target="_blank" rel="noopener">İncele ↗</a></td>
+        </tr>
+    `).join("")}
+`;
+
+$("exportCSV").onclick=()=>{
+
+    const rows=[
+        ["Name","Type","Group","Temperature_K",
+         "Mass_Solar","Radius_Solar","Luminosity_Solar",
+         "RA_hours","DEC_degrees","Distance_ly",
+         "Visual_magnitude","Data_status"],
+
+        ...stars.map(s=>[
+            s.name,s.type,s.group,s.T,s.M,s.R,s.L,
+            s.ra,s.dec,s.distance,s.mag,
+            "Approximate educational data"
+        ])
+    ];
+
+    const csv=rows.map(row=>row.map(value=>
+        '"'+String(value??"").replaceAll('"','""')+'"'
+    ).join(",")).join("\n");
+
+    const blob=new Blob(
+        ["\uFEFF"+csv],
+        {type:"text/csv;charset=utf-8"}
+    );
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="stellar-catalogue.csv";
+    a.click();
+
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+/* =====================================
+   22. INITIALIZE APPLICATION
+===================================== */
+
+function initialize(){
+
+    drawSky();
+    renderStarList();
+    renderAtlas();
+    renderComparison();
+    renderAnatomy();
+    drawSpectrum();
+    renderElement(0);
+    drawDoppler();
+    renderWave(5);
+    renderPhysics();
+    updateLab();
+    renderEvolution();
+    drawScale();
+    drawParallax();
+    drawDistance();
+    renderQuiz();
+    renderDictionary();
+}
+
+initialize();
+
+let resizeTimer;
+
+window.addEventListener("resize",()=>{
+
+    clearTimeout(resizeTimer);
+
+    resizeTimer=setTimeout(()=>{
+
+        drawSky();
+        renderAtlas();
+        renderComparison();
+        renderAnatomy();
+        drawSpectrum();
+        drawDoppler();
+        renderWave(5);
+        updateLab();
+        drawScale();
+        drawParallax();
+        drawDistance();
+
+    },150);
+});
+
+</script>
+</body>
+</html>
